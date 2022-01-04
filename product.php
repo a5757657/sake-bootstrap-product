@@ -39,11 +39,13 @@ $rows = $pdo->query($sql)->fetchAll();
     .pro_img {
         height: 160px;
         padding: 10px;
+        filter: drop-shadow(0px 5px 6px rgba(50,50,50,.5));
     }
+
 </style>
 
 <div class="d-flex justify-content-between mt-5">
-    <button type="button" class="btn btn-secondary btn-sm">刪除選擇項目</button>
+    <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
@@ -117,27 +119,27 @@ $rows = $pdo->query($sql)->fetchAll();
                         <input class="form-check-input check" type="checkbox" value="" />
                     </td>
                     <td>
-                        <a href="#"><i class="fas fa-trash"></i></a>
+                        <a href="javascript: delete_it(<?= $r['pro_id'] ?>)"><i class="fas fa-trash"></i></a>
                     </td>
                     <td class="col-1" id="sid"> <?= $r['pro_id'] ?> </td>
                     <td class="col-2"><img class="pro_img" src="/sake-bootstrap/img/<?= $r['pro_img'] ?>" alt=""></td>
-                    <td class="col-2"><?= $r['pro_name'] ?></td>
+                    <td class="col-2"><?= htmlentities($r['pro_name']) ?></td>
                     <td class="col-1"><?= $r['pro_stock'] ?></td>
                     <td class="col-1"><?= $r['pro_selling'] ?></td>
-                    <td class="col-4"><?= $r['pro_intro'] ?></td>
+                    <td class="col-4"><?= htmlentities($r['pro_intro']) ?></td>
                     <td class="col-1"><?= $r['pro_condition'] ?></td>
                     <td class="col-1"><?= $r['format_id'] ?></td>
                     <td class="col-2"><?= $r['pro_creat_time'] ?></td>
                     <td class="col-2"><?= $r['pro_unsell_time'] ?></td>
-                    <td class="col-1"><?= $r['pro_price'] ?></td>
-                    <td class="col-1"><?= $r['pro_capacity'] ?></td>
+                    <td class="col-1">NT$<?= $r['pro_price'] ?></td>
+                    <td class="col-1"><?= $r['pro_capacity'] ?>ml</td>
                     <td class="col-1"><?= $r['pro_loca'] ?></td>
-                    <td class="col-1"><?= $r['pro_level'] ?></td>
-                    <td class="col-1"><?= $r['pro_brand'] ?></td>
-                    <td class="col-1"><?= $r['pro_essence'] ?></td>
-                    <td class="col-1"><?= $r['pro_alco'] ?></td>
-                    <td class="col-1"><?= $r['pro_marker'] ?></td>
-                    <td class="col-2"><?= $r['rice'] ?></td>
+                    <td class="col-1"><?= htmlentities($r['pro_level']) ?></td>
+                    <td class="col-1"><?= htmlentities($r['pro_brand']) ?></td>
+                    <td class="col-1"><?= $r['pro_essence'] ?>%</td>
+                    <td class="col-1"><?= $r['pro_alco'] ?>%</td>
+                    <td class="col-1"><?= htmlentities($r['pro_marker']) ?></td>
+                    <td class="col-2"><?= htmlentities($r['rice']) ?></td>
                     <td class="col-2"><?= $r['pro-taste'] ?></td>
                     <td class="col-2"><?= $r['pro-temp'] ?></td>
                     <td class="col-1"><?= $r['pro_gift'] ?></td>
@@ -182,9 +184,11 @@ $rows = $pdo->query($sql)->fetchAll();
 <script>
     const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
     //  modal.show() 讓 modal 跳出
+
+    //刪除單筆、多筆資料
     function delete_it(sid) {
         if (confirm(`確定要刪除編號為 ${sid} 的資料嗎?`)) {
-            //location.href = `product-del.php?sid=${sid}`;
+            location.href = `product-del.php?sid=${sid}`;
         }
     }
 
@@ -204,8 +208,28 @@ $rows = $pdo->query($sql)->fetchAll();
                 check[i].checked = false;
             }
         }
-
-
     }
+
+    let delAll = document.querySelector('#delAll');
+    delAll.addEventListener('click', function() {
+        let check = document.querySelectorAll('.check');
+        let arr = [];
+        let str;
+
+        check.forEach(function(el) {
+            if (el.checked) {
+                str = el.parentElement.nextElementSibling; //選取父元素的隔壁
+                str = str.nextElementSibling.innerHTML; //的隔壁元素
+                arr.push(str);
+            }
+        })
+        arr = arr.join(',');
+
+        if(arr) {
+            delete_it(arr)
+        }
+    })
+    
+
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>
