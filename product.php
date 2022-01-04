@@ -11,16 +11,16 @@ $totalRows = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM)[0];
 $totalPages = ceil($totalRows / $perPage);
 
 if ($page > $totalPages) {
-    header('Location: product.php?page='.$totalPages);
+    header('Location: product.php?page=' . $totalPages);
     exit;
 }
 
 if ($page < 1) {
-    header('Location: product.php?page='.'1');
+    header('Location: product.php?page=' . '1');
     exit;
 }
 
-$sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf on ps.format_id = pf.format_id LIMIT %s, %s", ($page - 1) * $perPage, $perPage) ;
+$sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf on ps.format_id = pf.format_id LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
 
 $rows = $pdo->query($sql)->fetchAll();
 
@@ -54,10 +54,11 @@ $rows = $pdo->query($sql)->fetchAll();
                 <a class="page-link" href="?page=<?= $page - 1 ?>"><i class="fas fa-angle-left"></i></a>
             </li>
             <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
-                <?php if($i>($page-3) && $i < ($page+3)) :?>
+                <?php if ($i > ($page - 3) && $i < ($page + 3)) : ?>
 
-                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                <a class="page-link" href="?page=<?=$i?>"><?=$i?></a></li>
+                    <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                    </li>
                 <?php endif ?>
             <?php endfor ?>
 
@@ -75,7 +76,7 @@ $rows = $pdo->query($sql)->fetchAll();
         <thead>
             <tr class="d-flex">
                 <th>
-                    <input class="form-check-input" type="checkbox" value="" />
+                    <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check()" />
                 </th>
                 <th>
                     <a href="#"><i class="fas fa-trash"></i></a>
@@ -113,7 +114,7 @@ $rows = $pdo->query($sql)->fetchAll();
             <?php foreach ($rows as $r) : ?>
                 <tr class="d-flex">
                     <td>
-                        <input class="form-check-input" type="checkbox" value="" />
+                        <input class="form-check-input check" type="checkbox" value="" />
                     </td>
                     <td>
                         <a href="#"><i class="fas fa-trash"></i></a>
@@ -152,6 +153,22 @@ $rows = $pdo->query($sql)->fetchAll();
     </table>
 </div>
 
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- add -->
 <?php include __DIR__ . '/parts/__add.html' ?>
 <!-- edit -->
@@ -165,5 +182,30 @@ $rows = $pdo->query($sql)->fetchAll();
 <script>
     const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
     //  modal.show() 讓 modal 跳出
+    function delete_it(sid) {
+        if (confirm(`確定要刪除編號為 ${sid} 的資料嗎?`)) {
+            //location.href = `product-del.php?sid=${sid}`;
+        }
+    }
+
+    //全選功能
+    function check() {
+
+        let check = document.querySelectorAll('.check');
+        let checkAll = document.querySelector('#checkAll');
+
+        if (checkAll.checked == true) {
+
+            for (let i = 0; i < check.length; i++) {
+                check[i].checked = true;
+            }
+        } else {
+            for (let i = 0; i < check.length; i++) {
+                check[i].checked = false;
+            }
+        }
+
+
+    }
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>
