@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.83.1">
+    <title>禾酒林 - 後臺管理首頁</title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+      .navbar-nav .nav-link {
+        text-align: right;
+      }
+      .btn-toggle-nav a {
+      display: inline-flex;
+      padding: 0.1875rem 0.5rem;
+      margin-top: 0.125rem;
+      margin-left: 1.25rem;
+      text-decoration: none;
+      }
+      .rounded {
+      border-radius: 0.25rem!important;
+      } 
+      .link-dark {
+      color: #212529;
+      } 
+      .btn-toggle {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 1rem;
+      font-weight: 600;
+      color: rgba(0, 0, 0, .65);
+      background-color: transparent;
+      border: 0;
+      }
+      td .fas {
+        color: #999;
+      }
+      .btn-group-sm>.btn, .btn-sm {
+        height: 2.2rem;
+      }
+      .page-item.active .page-link {
+        background-color: #888;
+        border-color: #888;
+      }
+      .page-item.active .page-link a{
+        color: #fff !important
+      }
+      .page-item a{
+        color: #888
+      }
+      .page-item a:focus{
+        color: #333
+      }
+      .page-item a:hover{
+        color: #333
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+  </head>
+  <body>
+    
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">禾酒林</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="w-100 navbar-dark">
+  <ul class="navbar-nav px-3 navbar-dark d-flex flex-row gap-3 justify-content-end">
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="#">註冊</a>
+    </li>
+    <li class="nav-item text-nowrap">
+      <a class="nav-link" href="#">登入</a>
+    </li>
+  </ul>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column list-unstyled ps-0">
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#news-collapse" aria-expanded="false">
+                最新消息
+              </button>
+              <div class="collapse" id="news-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#prod-collapse" aria-expanded="false">
+                商品管理
+              </button>
+              <div class="collapse" id="prod-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#guide-collapse" aria-expanded="false">
+                選酒指南
+              </button>
+              <div class="collapse" id="guide-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#subscribe-collapse" aria-expanded="false">
+                訂閱服務
+              </button>
+              <div class="collapse" id="subscribe-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#event-collapse" aria-expanded="false">
+                活動管理
+              </button>
+              <div class="collapse" id="event-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#res-collapse" aria-expanded="false">
+                合作餐廳管理
+              </button>
+              <div class="collapse" id="res-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                會員管理
+              </button>
+              <div class="collapse" id="account-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#order-collapse" aria-expanded="false">
+                訂單管理
+              </button>
+              <div class="collapse" id="order-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#discont-collapse" aria-expanded="false">
+                折扣與優惠活動
+              </button>
+              <div class="collapse" id="discont-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mb-1">
+              <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#mark-collapse" aria-expanded="false">
+                酒標管理
+              </button>
+              <div class="collapse" id="mark-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="#" class="link-dark rounded">1</a></li>
+                  <li><a href="#" class="link-dark rounded">2</a></li>
+                </ul>
+              </div>
+            </li>
+        </ul>
+
+
+        
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+      
+<div class="mt-5">
+  <div class="row justify-content-center">
+    <div class="col-8">
+      <div class="card">
+        <h5 class="card-header py-3">新增</h5>
+        <div class="card-body">
+          
+          <form>
+            <div class="form-group mb-3">
+              <label for="exampleInputEmail1" class="mb-2">我是欄位1</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+            </div>
+            <div class="form-group mb-3">
+              <label for="exampleInputPassword1" class="mb-2">我是欄位2</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            </div>
+              <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-secondary w-25">新增</button>
+              </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </main>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">訊息</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
+      modal.show()
+    </script>
+  </body>
+</html>
