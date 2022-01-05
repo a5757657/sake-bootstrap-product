@@ -80,7 +80,7 @@ $rows = $pdo->query($sql)->fetchAll();
                     <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check()" />
                 </th>
                 <th>
-                    <a href="#"><i class="fas fa-trash"></i></a>
+                    <i style="color: #fff;" class="fas fa-trash"></i>
                 </th>
                 <th class="col-1">商品id</th>
                 <th class="col-2">圖片</th>
@@ -101,13 +101,13 @@ $rows = $pdo->query($sql)->fetchAll();
                 <th class="col-1">酒精度</th>
                 <th class="col-1">酒造</th>
                 <th class="col-2">使用米</th>
-                <th class="col-2">飲用溫度</th>
                 <th class="col-2">口味描述</th>
+                <th class="col-2">飲用溫度</th>
                 <th class="col-1">禮盒</th>
                 <th class="col-1">客製化</th>
                 <th class="col-1">酒器</th>
                 <th class="col-1">
-                    <a href="#"><i class="fas fa-pen"></i></a>
+                    <i style="color: #fff;" class="fas fa-pen"></i>
                 </th>
             </tr>
         </thead>
@@ -145,7 +145,7 @@ $rows = $pdo->query($sql)->fetchAll();
                     <td class="col-1"><?= $r['pro_mark'] ?></td>
                     <td class="col-1"><?= $r['container_id'] ?></td>
                     <td class="col-1">
-                        <a href="#"><i class="fas fa-pen"></i></a>
+                        <a href="product-edit.php"><i class="fas fa-pen"></i></a>
                     </td>
                 </tr>
             <?php endforeach;  ?>
