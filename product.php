@@ -41,6 +41,9 @@ $rows = $pdo->query($sql)->fetchAll();
         padding: 10px;
         filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
     }
+    .fa-trash{
+        text-align: center;
+    }
 </style>
 
 <div class="d-flex justify-content-between mt-5">
@@ -79,8 +82,8 @@ $rows = $pdo->query($sql)->fetchAll();
                 <th>
                     <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check()" />
                 </th>
-                <th>
-                    <i style="color: #fff;" class="fas fa-trash"></i>
+                <th class="col-1 text-center">
+                    刪除
                 </th>
                 <th class="col-1">商品id</th>
                 <th class="col-2">圖片</th>
@@ -107,7 +110,7 @@ $rows = $pdo->query($sql)->fetchAll();
                 <th class="col-1">客製化</th>
                 <th class="col-1">酒器</th>
                 <th class="col-1">
-                    <i style="color: #fff;" class="fas fa-pen"></i>
+                    修改
                 </th>
             </tr>
         </thead>
@@ -117,7 +120,7 @@ $rows = $pdo->query($sql)->fetchAll();
                     <td>
                         <input class="form-check-input check" type="checkbox" value="" />
                     </td>
-                    <td>
+                    <td class="col-1 text-center">
                         <a href="javascript: delete_it(<?= $r['pro_id'] ?>)"><i class="fas fa-trash"></i></a>
                     </td>
                     <td class="col-1" id="sid"> <?= $r['pro_id'] ?> </td>
