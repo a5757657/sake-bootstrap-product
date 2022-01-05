@@ -2,6 +2,8 @@
 <?php
 
 $title = '商品管理';
+
+//每一頁出現幾筆資料
 $perPage = 5;
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
@@ -10,16 +12,19 @@ $t_sql = "SELECT COUNT(1) FROM `product_sake`";
 $totalRows = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM)[0];
 $totalPages = ceil($totalRows / $perPage);
 
+//若page大於總頁數一律跳轉到最後一頁
 if ($page > $totalPages) {
     header('Location: product.php?page=' . $totalPages);
     exit;
 }
 
+//若page小於總頁數一律跳轉到第一頁
 if ($page < 1) {
     header('Location: product.php?page=' . '1');
     exit;
 }
 
+//設定每一頁出現幾筆資料
 $sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf on ps.format_id = pf.format_id LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
 
 $rows = $pdo->query($sql)->fetchAll();
@@ -27,20 +32,19 @@ $rows = $pdo->query($sql)->fetchAll();
 ?>
 
 
-
 <?php include __DIR__ . '/parts/__head.php' ?>
-
 <?php include __DIR__ . '/parts/__navbar.html' ?>
 <?php include __DIR__ . '/parts/__sidebar.html' ?>
-
 <?php include __DIR__ . '/parts/__main_start.html' ?>
 
 <style>
+    /* 清酒圖片的css樣式 */
     .pro_img {
         height: 160px;
         padding: 10px;
-        filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
+        filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5)); /* 帶透明圖層用的陰影 */
     }
+
 
     .fa-trash {
         text-align: center;
@@ -51,6 +55,8 @@ $rows = $pdo->query($sql)->fetchAll();
     <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
+
+        <!-- 設定頁數的顯示 -->
             <li class="page-item <?= 1 == $page ? 'disabled' : '' ?>">
                 <a class="page-link  " href="?page=<?= "1" ?>">
                     <i class="fas fa-angle-double-left"></i></a>
@@ -66,7 +72,6 @@ $rows = $pdo->query($sql)->fetchAll();
                     </li>
                 <?php endif ?>
             <?php endfor ?>
-
             <li class="page-item <?= $totalPages == $page ? 'disabled' : '' ?>">
                 <a class="page-link" href="?page=<?= $page - 1 ?>"><i class="fas fa-angle-right"></i></a>
             </li>
@@ -81,11 +86,9 @@ $rows = $pdo->query($sql)->fetchAll();
         <thead>
             <tr class="d-flex">
                 <th>
-                    <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check()" />
+                    <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check() //選取全部的checkbox " /> 
                 </th>
-                <th class="col-1 text-center">
-                    刪除
-                </th>
+                <th class="col-1 text-center">刪除</th>
                 <th class="col-1">商品id</th>
                 <th class="col-2">圖片</th>
                 <th class="col-2">名稱</th>
@@ -116,6 +119,7 @@ $rows = $pdo->query($sql)->fetchAll();
             </tr>
         </thead>
         <tbody>
+            <!-- 讀入資料 -->
             <?php foreach ($rows as $r) : ?>
                 <tr class="d-flex">
                     <td>
@@ -157,6 +161,8 @@ $rows = $pdo->query($sql)->fetchAll();
         </tbody>
     </table>
 </div>
+
+<!-- 光箱的部分 -->
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -231,6 +237,7 @@ $rows = $pdo->query($sql)->fetchAll();
         }
     }
 
+    //取前臺顯示的商品id值
     let delAll = document.querySelector('#delAll');
     delAll.addEventListener('click', function() {
         let check = document.querySelectorAll('.check');
@@ -244,7 +251,8 @@ $rows = $pdo->query($sql)->fetchAll();
                 arr.push(str);
             }
         })
-        arr = arr.join(',');
+
+        arr = arr.join(','); //陣列加入符號隔開轉為字串(sql看得懂的樣子)
 
         if (arr) {
             delete_it(arr)

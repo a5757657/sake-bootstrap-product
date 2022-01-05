@@ -7,11 +7,15 @@ if (!isset($_GET['pro_id'])) {
     exit;
 }
 
-$sid = intval($_GET['sid']);
+$sid = intval($_GET['pro_id']);
 
-$row = $pdo->query("SELECT * FROM `address_book` WHERE sid=$sid")->fetch();
+$format= $pdo->query("SELECT `format_id` FROM `product_sake` WHERE `product_sake`.`pro_id` = $sid ")->fetch(); //此時的$format是陣列
+$format= $format['format_id']; ////取陣列裡的值
 
-if (empty($row)) {
+$pformat = $pdo->query("SELECT * FROM `product_format` WHERE `format_id` = $format")->fetch();
+$psake = $pdo->query("SELECT * FROM `product_sake` WHERE `pro_id` = $sid")->fetch();
+
+if (empty($psake)) {
     header('Location: product.php');
     exit;
 }
@@ -51,33 +55,36 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     <div class="row justify-content-center mb-5">
         <div class="col-8 ">
             <div class="card">
-                <h5 class="card-header py-3">修改</h5>
+                <h5 class="card-header py-3" >商品資料修改</h5>
                 <div class="card-body">
                     <form class="row">
+
+                        <?php if($psake['pro_img']): ?>
                         <div class="img-div">
-                            <img id="edit-img" src="/sake-bootstrap-product/img/M0001.png" alt="">
+                            <img id="edit-img" src="/sake-bootstrap-product/img/<?= $psake['pro_img'] ?>" alt="">
                         </div>
+                        <?php endif ?>
 
                         <div class="form-group mb-3">
                             <label for="pro_img" class="mb-2">商品圖片</label>
                             <input type="file" class="form-control" name="pro_img" id="pro_img" />
 
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-8">
                             <label for="pro_name" class="mb-2">名稱</label>
-                            <input type="text" class="form-control" name="pro_name" id="pro_name" />
+                            <input type="text" class="form-control" name="pro_name" id="pro_name" value="<?= $psake['pro_name'] ?>" />
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-2">
                             <label for="pro_stock" class="mb-2">庫存</label>
-                            <input type="number" class="form-control" name="pro_stock" id="pro_stock" />
+                            <input type="number" class="form-control" name="pro_stock" id="pro_stock" value="<?= $psake['pro_stock'] ?>" />
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-2">
                             <label for="pro_selling" class="mb-2">銷售量</label>
-                            <input type="number" class="form-control" name="pro_selling" id="pro_selling" />
+                            <input type="number" class="form-control" name="pro_selling" id="pro_selling" value="<?= $psake['pro_selling'] ?>" />
                         </div>
                         <div class="form-group mb-3">
                             <label class="mb-2" for="pro_intro">介紹</label>
-                            <textarea class="form-control" name="pro_intro" id="pro_intro" rows="3"></textarea>
+                            <textarea class="form-control" name="pro_intro" id="pro_intro" rows="7" ><?= $psake['pro_intro'] ?></textarea>
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_condition">商品狀態</label>
@@ -90,11 +97,11 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label for="pro_price" class="mb-2">價格<small> NT$1380 -> 1380</small></label>
-                            <input type="number" class="form-control" name="pro_price" id="pro_price" />
+                            <input type="number" class="form-control" name="pro_price" id="pro_price" value="<?= $pformat['pro_price'] ?>" />
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label for="pro_capacity" class="mb-2">容量<small> 720ml -> 720</small></label>
-                            <input type="number" class="form-control" name="pro_capacity" id="pro_capacity" />
+                            <input type="number" class="form-control" name="pro_capacity" id="pro_capacity" value="<?= $pformat['pro_capacity'] ?>" />
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_loca">產地</label>
@@ -163,32 +170,32 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label for="pro_brand" class="mb-2">品牌</label>
-                            <input type="text" class="form-control" name="pro_brand" id="pro_brand" />
+                            <input type="text" class="form-control" name="pro_brand" id="pro_brand" value="<?= $pformat['pro_brand'] ?>" />
                         </div>
                         <div class="form-group mb-3 col-6">
                             <label for="pro_essence" class="mb-2">精米步合<small> 50% -> 50</small></label>
-                            <input type="number" class="form-control" name="pro_essence" id="pro_essence" />
+                            <input type="number" class="form-control" name="pro_essence" id="pro_essence" value="<?= $pformat['pro_essence'] ?>" />
                         </div>
                         <div class="form-group mb-3 col-6">
                             <label for="pro_alco" class="mb-2">酒精度<small> 50% -> 50</small></label>
-                            <input type="number" class="form-control" name="pro_alco" id="pro_alco" />
+                            <input type="number" class="form-control" name="pro_alco" id="pro_alco" value="<?= $pformat['pro_alco'] ?>" />
                         </div>
                         <div class="form-group mb-3 col-6">
                             <label for="pro_marker" class="mb-2">酒造</label>
-                            <input type="text" class="form-control" name="pro_marker" id="pro_marker" />
+                            <input type="text" class="form-control" name="pro_marker" id="pro_marker" value="<?= $pformat['pro_marker'] ?>"/>
                         </div>
 
                         <div class="form-group mb-3 col-6">
                             <label for="rice" class="mb-2">使用米</label>
-                            <input type="text" class="form-control" name="rice" id="rice" />
+                            <input type="text" class="form-control" name="rice" id="rice" value="<?= $pformat['rice'] ?>"/>
                         </div>
                         <div class="form-group mb-3 col-6">
                             <label for="pro-taste" class="mb-2">口味描述<small> 偏酸 偏甜 辛口 甘口 輕盈 適中</small></label>
-                            <input type="text" class="form-control" name="pro-taste" id="pro-taste" />
+                            <input type="text" class="form-control" name="pro-taste" id="pro-taste" value="<?= $pformat['pro-taste'] ?>"/>
                         </div>
                         <div class="form-group mb-3 col-6">
-                            <label for="pro-taste" class="mb-2">飲用溫度<small> 冷酒 常溫 燗酒</small></label>
-                            <input type="text" class="form-control" name="pro-taste" id="pro-taste" />
+                            <label for="pro-temp" class="mb-2">飲用溫度<small> 冷酒 常溫 燗酒</small></label>
+                            <input type="text" class="form-control" name="pro-temp" id="pro-temp" value="<?= $pformat['pro-temp'] ?>"/>
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_gift">禮盒</label>
@@ -203,7 +210,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                             <label class="mb-2" for="pro_mark">酒標客製化</label>
                             <select class="form-control" id="pro_mark" name="pro_mark">
                                 <option value="">選擇是否客製化</option>
-                                <option value="1">可以客製化</option>
+                                <option selected="selected" value="1">可以客製化</option>
                                 <option value="0">不可客製化</option>
                             </select>
                         </div>
