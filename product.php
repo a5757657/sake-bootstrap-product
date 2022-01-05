@@ -39,9 +39,8 @@ $rows = $pdo->query($sql)->fetchAll();
     .pro_img {
         height: 160px;
         padding: 10px;
-        filter: drop-shadow(0px 5px 6px rgba(50,50,50,.5));
+        filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
     }
-
 </style>
 
 <div class="d-flex justify-content-between mt-5">
@@ -162,8 +161,9 @@ $rows = $pdo->query($sql)->fetchAll();
                 <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">...</div>
+            <div class="modal-body" id="alertModal"></div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
             </div>
         </div>
@@ -187,6 +187,8 @@ $rows = $pdo->query($sql)->fetchAll();
 
     //刪除單筆、多筆資料
     function delete_it(sid) {
+        let alertModal = document.querySelector('#alertModal')
+
         if (confirm(`確定要刪除編號為 ${sid} 的資料嗎?`)) {
             location.href = `product-del.php?sid=${sid}`;
         }
@@ -225,11 +227,9 @@ $rows = $pdo->query($sql)->fetchAll();
         })
         arr = arr.join(',');
 
-        if(arr) {
+        if (arr) {
             delete_it(arr)
         }
     })
-    
-
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>
