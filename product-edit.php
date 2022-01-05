@@ -9,8 +9,8 @@ if (!isset($_GET['pro_id'])) {
 
 $sid = intval($_GET['pro_id']);
 
-$format= $pdo->query("SELECT `format_id` FROM `product_sake` WHERE `product_sake`.`pro_id` = $sid ")->fetch(); //此時的$format是陣列
-$format= $format['format_id']; ////取陣列裡的值
+$format = $pdo->query("SELECT `format_id` FROM `product_sake` WHERE `product_sake`.`pro_id` = $sid ")->fetch(); //此時的$format是陣列
+$format = $format['format_id']; ////取陣列裡的值
 
 $pformat = $pdo->query("SELECT * FROM `product_format` WHERE `format_id` = $format")->fetch();
 $psake = $pdo->query("SELECT * FROM `product_sake` WHERE `pro_id` = $sid")->fetch();
@@ -55,14 +55,14 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     <div class="row justify-content-center mb-5">
         <div class="col-8 ">
             <div class="card">
-                <h5 class="card-header py-3" >商品資料修改</h5>
+                <h5 class="card-header py-3">商品資料修改<br><small>商品表id:<?= $psake['pro_id'] ?>&nbsp&nbsp&nbsp&nbsp規格表id:<?= $pformat['format_id'] ?></small></h5>
                 <div class="card-body">
                     <form class="row">
 
-                        <?php if($psake['pro_img']): ?>
-                        <div class="img-div">
-                            <img id="edit-img" src="/sake-bootstrap-product/img/<?= $psake['pro_img'] ?>" alt="">
-                        </div>
+                        <?php if ($psake['pro_img']) : ?>
+                            <div class="img-div">
+                                <img id="edit-img" src="/sake-bootstrap-product/img/<?= $psake['pro_img'] ?>" alt="">
+                            </div>
                         <?php endif ?>
 
                         <div class="form-group mb-3">
@@ -84,14 +84,14 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
                         <div class="form-group mb-3">
                             <label class="mb-2" for="pro_intro">介紹</label>
-                            <textarea class="form-control" name="pro_intro" id="pro_intro" rows="7" ><?= $psake['pro_intro'] ?></textarea>
+                            <textarea class="form-control" name="pro_intro" id="pro_intro" rows="7"><?= $psake['pro_intro'] ?></textarea>
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_condition">商品狀態</label>
                             <select class="form-control" id="pro_condition" name="pro_condition">
-                                <option value="">選擇狀態</option>
+                                <option value="">**選擇狀態**</option>
                                 <option value="已上架">已上架</option>
-                                <option value="已上架">已下架</option>
+                                <option value="已下架">已下架</option>
                                 <option value="補貨中">補貨中</option>
                             </select>
                         </div>
@@ -106,7 +106,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_loca">產地</label>
                             <select class="form-control" name="pro_loca" id="pro_loca">
-                                <option value="">選擇產地</option>
+                                <option value="">**選擇產地**</option>
                                 <option value="東京都">東京都</option>
                                 <option value="北海道">北海道</option>
                                 <option value="大阪府">大阪府</option>
@@ -159,7 +159,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_level">等級</label>
                             <select class="form-control" id="pro_level" name="pro_level">
-                                <option value="">選擇等級</option>
+                                <option value="">**選擇等級**</option>
                                 <option value="純米大吟釀">純米大吟釀</option>
                                 <option value="純米吟釀">純米吟釀</option>
                                 <option value="大吟釀">大吟釀</option>
@@ -182,43 +182,43 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
                         <div class="form-group mb-3 col-6">
                             <label for="pro_marker" class="mb-2">酒造</label>
-                            <input type="text" class="form-control" name="pro_marker" id="pro_marker" value="<?= $pformat['pro_marker'] ?>"/>
+                            <input type="text" class="form-control" name="pro_marker" id="pro_marker" value="<?= $pformat['pro_marker'] ?>" />
                         </div>
 
                         <div class="form-group mb-3 col-6">
                             <label for="rice" class="mb-2">使用米</label>
-                            <input type="text" class="form-control" name="rice" id="rice" value="<?= $pformat['rice'] ?>"/>
+                            <input type="text" class="form-control" name="rice" id="rice" value="<?= $pformat['rice'] ?>" />
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-4">
                             <label for="pro-taste" class="mb-2">口味描述<small> 偏酸 偏甜 辛口 甘口 輕盈 適中</small></label>
-                            <input type="text" class="form-control" name="pro-taste" id="pro-taste" value="<?= $pformat['pro-taste'] ?>"/>
+                            <input type="text" class="form-control" name="pro-taste" id="pro-taste" value="<?= $pformat['pro-taste'] ?>" />
                         </div>
-                        <div class="form-group mb-3 col-6">
+                        <div class="form-group mb-3 col-4">
                             <label for="pro-temp" class="mb-2">飲用溫度<small> 冷酒 常溫 燗酒</small></label>
-                            <input type="text" class="form-control" name="pro-temp" id="pro-temp" value="<?= $pformat['pro-temp'] ?>"/>
+                            <input type="text" class="form-control" name="pro-temp" id="pro-temp" value="<?= $pformat['pro-temp'] ?>" />
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_gift">禮盒</label>
                             <select class="form-control" id="pro_gift" name="pro_gift">
-                                <option value="">選擇禮盒</option>
+                                <option value="">**選擇禮盒**</option>
                                 <?php foreach ($pro_marks as $pm) : ?>
                                     <option value="<?= $pm['pro_gift'] ?>"><?= $pm['gift_name'] ?></option>
                                 <?php endforeach ?>
                             </select>
                         </div>
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-6">
                             <label class="mb-2" for="pro_mark">酒標客製化</label>
                             <select class="form-control" id="pro_mark" name="pro_mark">
-                                <option value="">選擇是否客製化</option>
-                                <option selected="selected" value="1">可以客製化</option>
+                                <option value="">**選擇是否客製化**</option>
+                                <option value="1">可以客製化</option>
                                 <option value="0">不可客製化</option>
                             </select>
                         </div>
 
-                        <div class="form-group mb-3 col-4">
+                        <div class="form-group mb-3 col-6">
                             <label class="mb-2" for="container_id">酒器</label>
                             <select class="form-control" id="container_id" name="container_id">
-                                <option value="">選擇酒器</option>
+                                <option value="">**選擇酒器**</option>
 
                                 <?php foreach ($pro_cons as $pc) : ?>
                                     <option value="<?= $pc['container_id'] ?>"><?= $pc['container_name'] ?></option>
@@ -248,5 +248,55 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 <script>
     const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
     //  modal.show() 讓 modal 跳出
+
+
+    //商品狀態
+    let pro_condition = document.querySelector('#pro_condition').childNodes; //選取下拉選單的子元素
+    pro_condition.forEach(el => {
+        if (el.value == "<?= $psake['pro_condition'] ?>") {
+            el.setAttribute('selected', 'selected');
+        }
+    });
+
+    //產地
+    let pro_loca = document.querySelector('#pro_loca').childNodes; //選取下拉選單的子元素
+    pro_loca.forEach(el => {
+        if (el.value == "<?= $pformat['pro_loca'] ?>") {
+            el.setAttribute('selected', 'selected');
+        }
+    });
+
+    //等級
+    let pro_level = document.querySelector('#pro_level').childNodes; //選取下拉選單的子元素
+    pro_level.forEach(el => {
+        if (el.value == "<?= $pformat['pro_level'] ?>") {
+            el.setAttribute('selected', 'selected');
+        }
+    });
+
+
+    //禮盒
+    let pro_gift = document.querySelector('#pro_gift').childNodes; //選取下拉選單的子元素
+    pro_gift.forEach(el => {
+        if (el.value == "<?= $pformat['pro_gift'] ?>") {
+            el.setAttribute('selected', 'selected');
+        }
+    });
+
+    //酒標客製化
+    let pro_mark = document.querySelector('#pro_mark').childNodes; //選取下拉選單的子元素
+    pro_mark.forEach(el => {
+        if (el.value == "<?= $pformat['pro_mark'] ?>") {
+            el.setAttribute('selected', 'selected');
+        }
+    });
+
+    //酒標客製化
+    let container_id = document.querySelector('#container_id').childNodes; //選取下拉選單的子元素
+    container_id.forEach(el => {
+        if (el.value == "<?= $pformat['container_id'] ?>") {
+            el.setAttribute('selected', 'selected');
+        }
+    });
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>

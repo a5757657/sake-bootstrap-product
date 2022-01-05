@@ -4,7 +4,7 @@
 $title = '商品管理';
 
 //每一頁出現幾筆資料
-$perPage = 5;
+$perPage = 20;
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
 //總比數
