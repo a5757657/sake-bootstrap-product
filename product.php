@@ -41,7 +41,8 @@ $rows = $pdo->query($sql)->fetchAll();
         padding: 10px;
         filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
     }
-    .fa-trash{
+
+    .fa-trash {
         text-align: center;
     }
 </style>
@@ -50,8 +51,8 @@ $rows = $pdo->query($sql)->fetchAll();
     <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link <?= 1 == $page ? 'disabled' : '' ?> " href="?page=<?= 1 ?>">
+            <li class="page-item <?= 1 == $page ? 'disabled' : '' ?>">
+                <a class="page-link  " href="?page=<?= "1" ?>">
                     <i class="fas fa-angle-double-left"></i></a>
             </li>
             <li class="page-item <?= 1 == $page ? 'disabled' : '' ?>">
@@ -142,13 +143,13 @@ $rows = $pdo->query($sql)->fetchAll();
                     <td class="col-1"><?= $r['pro_alco'] ?>%</td>
                     <td class="col-1"><?= htmlentities($r['pro_marker']) ?></td>
                     <td class="col-2"><?= htmlentities($r['rice']) ?></td>
-                    <td class="col-2"><?= $r['pro-taste'] ?></td>
-                    <td class="col-2"><?= $r['pro-temp'] ?></td>
+                    <td class="col-2"><?= htmlentities($r['pro-taste']) ?></td>
+                    <td class="col-2"><?= htmlentities($r['pro-temp']) ?></td>
                     <td class="col-1"><?= $r['pro_gift'] ?></td>
                     <td class="col-1"><?= $r['pro_mark'] ?></td>
                     <td class="col-1"><?= $r['container_id'] ?></td>
                     <td class="col-1">
-                        <a href="product-edit.php"><i class="fas fa-pen"></i></a>
+                        <a href="product-edit.php?pro_id=<?= $r['pro_id'] ?>"><i class="fas fa-pen"></i></a>
                     </td>
                 </tr>
             <?php endforeach;  ?>
@@ -161,13 +162,13 @@ $rows = $pdo->query($sql)->fetchAll();
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <h5 class="modal-title" id="exampleModalLabel">確定要刪除嗎？</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="alertModal"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+                <button type="button" class="btn btn-primary confirmDel" data-bs-dismiss="modal">確認</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
             </div>
         </div>
     </div>
@@ -190,12 +191,27 @@ $rows = $pdo->query($sql)->fetchAll();
 
     //刪除單筆、多筆資料
     function delete_it(sid) {
+        let alertModal = document.querySelector('#alertModal');
+        let confirmDel = document.querySelector('.confirmDel');
+        alertModal.innerHTML = `確定要刪除編號為 ${sid} 的資料嗎?`
+
+        if (alertModal.innerHTML) {
+            modal.show();
+
+            confirmDel.addEventListener('click', function() {
+                location.href = `product-del.php?sid=${sid}`;
+            })
+
+        }
+    }
+
+    /* function delete_it(sid) {
         let alertModal = document.querySelector('#alertModal')
 
         if (confirm(`確定要刪除編號為 ${sid} 的資料嗎?`)) {
             location.href = `product-del.php?sid=${sid}`;
         }
-    }
+    } */
 
     //全選功能
     function check() {

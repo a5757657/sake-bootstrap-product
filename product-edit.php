@@ -2,6 +2,22 @@
 <?php
 $title = '商品列表 - 修改頁面';
 
+if (!isset($_GET['pro_id'])) {
+    header("Location: product.php");
+    exit;
+}
+
+$sid = intval($_GET['sid']);
+
+$row = $pdo->query("SELECT * FROM `address_book` WHERE sid=$sid")->fetch();
+
+if (empty($row)) {
+    header('Location: product.php');
+    exit;
+}
+
+
+
 $pro_mark = "SELECT * FROM `product_gift` WHERE 1";
 $pro_marks = $pdo->query($pro_mark)->fetchAll();
 
