@@ -57,7 +57,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             <div class="card">
                 <h5 class="card-header py-3">商品資料修改<br><small>商品表id:<?= $psake['pro_id'] ?>&nbsp&nbsp&nbsp&nbsp規格表id:<?= $pformat['format_id'] ?></small></h5>
                 <div class="card-body">
-                    <form class="row" name="p-edit" ">
+                    <form class="row" name="p_edit" ">
 
                         <?php if ($psake['pro_img']) : ?>
                             <div class=" img-div">
@@ -247,6 +247,23 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">商品資料修改</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="alertModal"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <?php include __DIR__ . '/parts/__main_end.html' ?>
 
 <!-- 如果要 modal 的話留下面的結構 -->
@@ -364,7 +381,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">銷售量欄位請勿輸入負數</div>`;
         }
 
-       //介紹
+        //介紹
         if (pro_intro.value.length > 700) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">商品介紹過長</div>`;
@@ -391,7 +408,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">容量欄位請輸入數字</div>`;
         }
 
-        if (pro_capacity.value <= 0 || pro_capacity.value > 10000 ) {
+        if (pro_capacity.value <= 0 || pro_capacity.value > 10000) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入0~10000內的數字</div>`;
         }
@@ -412,7 +429,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入0~100內的數字</div>`;
         }
-        
+
         //酒精度
         if (isNaN(parseInt(pro_alco.value))) {
             isPass = false;
@@ -429,7 +446,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">酒造名稱過長</div>`;
         }
-        
+
         //使用米
         if (rice.value.length > 20) {
             isPass = false;
@@ -447,8 +464,27 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度描述過長</div>`;
         }
-        
-        
+
+
+        if (isPass) {
+            const fd = new FormData(document.p_edit);
+
+            fetch('product-edit-api.php', {
+                    method: 'POST',
+                    body: fd,
+                }).then(r => r.json())
+                .then(obj => {
+                    console.log(obj);
+                    if (obj.success) {
+                        alert('修改成功');
+                        // location.href = 'list.php';
+                    } else {
+
+                        document.querySelector('#alertModal').innerHTML = obj.error || '資料修改發生錯誤';
+                        modal.show();
+                    }
+                })
+        }
 
     }
 </script>

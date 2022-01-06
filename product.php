@@ -33,7 +33,7 @@ $container = "SELECT * FROM `product_container`";
 
 $ctr = $pdo->query($container)->fetchAll();
 
-//print_r($ctr[1]['container_name']);
+print_r($ctr[1]['container_name']);
 
 /* foreach ($ctr as $c) {
     print_r($c['container_name']);
@@ -162,7 +162,9 @@ $ctr = $pdo->query($container)->fetchAll();
                     <td class="col-2"><?= htmlentities($r['pro_temp']) ?></td>
                     <td class="col-1"><?= $r['pro_gift'] ?></td>
                     <td class="col-1"><?= $r['pro_mark'] ?></td>
-                    <td class="col-1"><?= $r['container_id'] ?></td>
+                    <td class="col-1"><?=
+                    
+                    $ctr[$r['container_id']-1]['container_name'] ?></td>
                     <td class="col-1">
                         <a href="product-edit.php?pro_id=<?= $r['pro_id'] ?>"><i class="fas fa-pen"></i></a>
                     </td>
