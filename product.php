@@ -29,15 +29,6 @@ $sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf 
 
 $rows = $pdo->query($sql)->fetchAll();
 
-$container = "SELECT * FROM `product_container`";
-
-$ctr = $pdo->query($container)->fetchAll();
-
-print_r($ctr[1]['container_name']);
-
-/* foreach ($ctr as $c) {
-    print_r($c['container_name']);
-} */
 
 ?>
 
@@ -124,14 +115,31 @@ print_r($ctr[1]['container_name']);
                 <th class="col-1">禮盒</th>
                 <th class="col-1">客製化</th>
                 <th class="col-1">酒器</th>
-                <th class="col-1">
-                    修改
-                </th>
+                <th class="col-1">修改</th>
             </tr>
         </thead>
         <tbody>
             <!-- 讀入資料 -->
-            <?php foreach ($rows as $r) : ?>
+            <?php foreach ($rows as $r) :
+
+                //抓規格表的酒器id
+                $cid = $r['container_id'];
+                //用酒器id去抓酒器名稱
+                $container = "SELECT pc.`container_name` FROM `product_container` pc JOIN `product_format` pf ON pc.`container_id` = $cid";
+                $ctr = $pdo->query($container)->fetch();
+
+
+                //抓規格表的禮盒id
+                $bid = $r['pro_gift'];
+                //用禮盒id去抓禮盒名稱
+                $pgift = "SELECT pg.`gift_name` FROM `product_gift` pg JOIN `product_format` pf ON pg.`pro_gift` = $bid";
+                $gift = $pdo->query($pgift)->fetch();
+
+
+
+
+
+            ?>
                 <tr class="d-flex">
                     <td>
                         <input class="form-check-input check" type="checkbox" value="" />
@@ -160,11 +168,9 @@ print_r($ctr[1]['container_name']);
                     <td class="col-2"><?= htmlentities($r['rice']) ?></td>
                     <td class="col-2"><?= htmlentities($r['pro_taste']) ?></td>
                     <td class="col-2"><?= htmlentities($r['pro_temp']) ?></td>
-                    <td class="col-1"><?= $r['pro_gift'] ?></td>
-                    <td class="col-1"><?= $r['pro_mark'] ?></td>
-                    <td class="col-1"><?=
-                    
-                    $ctr[$r['container_id']-1]['container_name'] ?></td>
+                    <td class="col-1"><?= $gift['gift_name'] ?></td>
+                    <td class="col-1"><?= $r['pro_mark'] ? '可' : '否'; ?></td>
+                    <td class="col-1"><?= $ctr['container_name'] ?></td>
                     <td class="col-1">
                         <a href="product-edit.php?pro_id=<?= $r['pro_id'] ?>"><i class="fas fa-pen"></i></a>
                     </td>
@@ -194,10 +200,6 @@ print_r($ctr[1]['container_name']);
 </div>
 
 
-<!-- add -->
-<?php include __DIR__ . '/parts/__add.html' ?>
-<!-- edit -->
-<?php include __DIR__ . '/parts/__edit.html' ?>
 <?php include __DIR__ . '/parts/__main_end.html' ?>
 <!-- 如果要 modal 的話留下面的結構 -->
 <?php include __DIR__ . '/parts/__modal.html' ?>
