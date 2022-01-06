@@ -17,9 +17,16 @@ if (isset($_GET['sid'])) {
         }
     }
 
+    
+
     $format_id = substr($id, 0, -1); //刪掉最後一個字元
 
+    echo $sid ;
+    
+    echo $format_id ;
+
     $pdo->query("DELETE FROM `product_sake` WHERE `pro_id` IN ($sid)");
+
     $pdo->query("DELETE FROM `product_format` WHERE `format_id` IN ($format_id)");
 };
 

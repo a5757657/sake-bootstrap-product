@@ -20,8 +20,6 @@ if (empty($psake)) {
     exit;
 }
 
-
-
 $pro_mark = "SELECT * FROM `product_gift` WHERE 1";
 $pro_marks = $pdo->query($pro_mark)->fetchAll();
 
@@ -52,12 +50,12 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     }
 </style>
 <div class="mt-5">
-    <div class="row justify-content-center mb-5">
-        <div class="col-11 ">
+    <div class="row justify-content-center">
+        <div class="col-11">
             <div class="card">
                 <h5 class="card-header py-3">商品資料修改<br><small>商品表id:<?= $psake['pro_id'] ?>&nbsp&nbsp&nbsp&nbsp規格表id:<?= $pformat['format_id'] ?></small></h5>
                 <div class="card-body">
-                    <form class="row" name="pedit" id="pedit">
+                    <form class="row" name="form1" onsubmit="sendData(); return false;">
 
                         <?php if ($psake['pro_img']) : ?>
                             <div class=" img-div">
@@ -236,17 +234,20 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
                         <!--警警告文字 -->
                         <div class="form-group mb-3 warning"></div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-secondary w-25">修改</button>
+                        </div>
+                        <input type="hidden" name="pro_id" value="<?= $psake['pro_id'] ?>">
+                        <input type="hidden" name="format_id" value="<?= $pformat['format_id'] ?>">
+                        <input type="hidden" name="pro_creat_time" value="<?= $psake['pro_creat_time'] ?>">
+                        <input type="hidden" name="pro_unsell_time" value="<?= $psake['pro_unsell_time'] ?>">
 
                     </form>
-                    <div class="d-flex justify-content-center mt-4">
-                        <button id="edit_btn" type="submit" class="btn btn-secondary w-25">修改</button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -257,7 +258,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             </div>
             <div class="modal-body" id="alertModal"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+                <button id="comfirm" type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
             </div>
         </div>
     </div>
@@ -319,6 +320,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
     //酒標客製化
     let container_id_c = document.querySelector('#container_id').childNodes; //選取下拉選單的子元素
+
     container_id_c.forEach(el => {
         if (el.value == "<?= $pformat['container_id'] ?>") {
             el.setAttribute('selected', 'selected');
@@ -343,9 +345,9 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     let warning = document.querySelector('.warning');
     let edit_btn = document.querySelector('#edit_btn');
 
-    edit_btn.addEventListener('click', function() {
-        sendData();
-    })
+    /*  edit_btn.addEventListener('click', function() {
+         sendData();
+     }) */
 
     function sendData() {
 
@@ -465,28 +467,24 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度描述過長</div>`;
         }
 
-        let pedit = document.querySelector('#pedit');
-        console.log(pedit);
 
         if (isPass) {
-            let fd = new FormData(document.pedit);
 
-            console.log(fd);
+            const fd = new FormData(document.form1);
 
             fetch('product-edit-api.php', {
                     method: 'POST',
                     body: fd,
                 }).then(r => r.json())
                 .then(obj => {
-                    console.log(obj);
                     if (obj.success) {
-
                         document.querySelector('#alertModal').innerHTML = '修改成功';
                         modal.show();
-                        //alert('修改成功');
-                        // location.href = 'list.php';
-                    } else {
+                        document.querySelector('#comfirm').addEventListener('click', function() {
+                            location.href = `product.php`;
+                        })
 
+                    } else {
                         document.querySelector('#alertModal').innerHTML = obj.error || '資料修改發生錯誤';
                         modal.show();
                     }
