@@ -4,7 +4,7 @@
 $title = '商品管理';
 
 //每一頁出現幾筆資料
-$perPage = 20;
+$perPage = 5;
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
 //總比數
@@ -29,6 +29,16 @@ $sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf 
 
 $rows = $pdo->query($sql)->fetchAll();
 
+$container = "SELECT * FROM `product_container`";
+
+$ctr = $pdo->query($container)->fetchAll();
+
+//print_r($ctr[1]['container_name']);
+
+/* foreach ($ctr as $c) {
+    print_r($c['container_name']);
+} */
+
 ?>
 
 
@@ -42,13 +52,14 @@ $rows = $pdo->query($sql)->fetchAll();
     .pro_img {
         height: 160px;
         padding: 10px;
-        filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5)); /* 帶透明圖層用的陰影 */
+        filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
+        /* 帶透明圖層用的陰影 */
     }
 
 
-    .fa-trash {
+    /* .fa-trash {
         text-align: center;
-    }
+    } */
 </style>
 
 <div class="d-flex justify-content-between mt-5">
@@ -56,7 +67,7 @@ $rows = $pdo->query($sql)->fetchAll();
     <nav aria-label="Page navigation example">
         <ul class="pagination">
 
-        <!-- 設定頁數的顯示 -->
+            <!-- 設定頁數的顯示 -->
             <li class="page-item <?= 1 == $page ? 'disabled' : '' ?>">
                 <a class="page-link  " href="?page=<?= "1" ?>">
                     <i class="fas fa-angle-double-left"></i></a>
@@ -86,7 +97,7 @@ $rows = $pdo->query($sql)->fetchAll();
         <thead>
             <tr class="d-flex">
                 <th>
-                    <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check() //選取全部的checkbox " /> 
+                    <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check() //選取全部的checkbox " />
                 </th>
                 <th class="col-1 text-center">刪除</th>
                 <th class="col-1">商品id</th>
@@ -147,8 +158,8 @@ $rows = $pdo->query($sql)->fetchAll();
                     <td class="col-1"><?= $r['pro_alco'] ?>%</td>
                     <td class="col-1"><?= htmlentities($r['pro_marker']) ?></td>
                     <td class="col-2"><?= htmlentities($r['rice']) ?></td>
-                    <td class="col-2"><?= htmlentities($r['pro-taste']) ?></td>
-                    <td class="col-2"><?= htmlentities($r['pro-temp']) ?></td>
+                    <td class="col-2"><?= htmlentities($r['pro_taste']) ?></td>
+                    <td class="col-2"><?= htmlentities($r['pro_temp']) ?></td>
                     <td class="col-1"><?= $r['pro_gift'] ?></td>
                     <td class="col-1"><?= $r['pro_mark'] ?></td>
                     <td class="col-1"><?= $r['container_id'] ?></td>
