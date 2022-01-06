@@ -45,21 +45,32 @@ $f_mark = $_POST['pro_mark'] ?? '';
 $f_container_id = $_POST['container_id'] ?? '';
 
 
-$s_c_time = $_POST['pro_creat_time'] ?? '';
-$s_u_time = $_POST['pro_unsell_time'] ?? '';
+//$s_c_time = $_POST['pro_creat_time'] ?? '';
+//$s_u_time = $_POST['pro_unsell_time'] ?? '';
+
+$s_u_time;
+$s_c_time;
+
 $date = date_create(); //現在時間
 
-/* if($s_condition = '已上架') {
+if ($s_condition == '已上架') {
     $s_c_time = date_format($date, 'Y-m-d H:i:s');
-}else{
-    $s_c_time = $_POST['pro_creat_time'] ?? '';
+    $s_u_time = $_POST['pro_unsell_time'];
+    $output['error'] = '資料沒有修改1';
+
+} else if ($s_condition == '已下架') {
+    $s_u_time = date_format($date, 'Y-m-d H:i:s');
+    $s_c_time = $_POST['pro_creat_time'];
+    $output['error'] = '資料沒有修改2';
+    
+} else {
+    $s_u_time = $_POST['pro_unsell_time'];
+    $s_c_time = $_POST['pro_creat_time'];
+    $output['error'] = '資料沒有修改3';
 }
 
-if($s_condition = '已下架') {
-    $s_u_time = date_format($date, 'Y-m-d H:i:s');
-}else{
-    $s_u_time = 'NULL';
-} */
+
+
 
 $sql_1 = "UPDATE `product_sake` SET 
                           `pro_name`=?,

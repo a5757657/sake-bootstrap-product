@@ -361,10 +361,15 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">商品名稱過長</div>`;
         }
 
+        if (pro_name.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入名稱</div>`;
+        }
+
         //庫存
         if (isNaN(parseInt(pro_stock.value))) {
             isPass = false;
-            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入數字</div>`;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">庫存欄位請輸入數字</div>`;
         }
 
         if (pro_stock.value < 0) {
@@ -387,6 +392,11 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
         if (pro_intro.value.length > 700) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">商品介紹過長</div>`;
+        }
+
+        if (pro_intro.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入商品介紹</div>`;
         }
 
         //價格
@@ -421,6 +431,11 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">品牌名稱過長</div>`;
         }
 
+        if (pro_brand.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入品牌名稱</div>`;
+        }
+
         //精米步合
         if (isNaN(parseInt(pro_essence.value))) {
             isPass = false;
@@ -449,10 +464,20 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">酒造名稱過長</div>`;
         }
 
+        if (pro_marker.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入酒造名稱</div>`;
+        }
+
         //使用米
         if (rice.value.length > 20) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">使用米名稱過長</div>`;
+        }
+
+        if (rice.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入使用米名稱</div>`;
         }
 
         //口味描述
@@ -461,16 +486,44 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">口味描述過長</div>`;
         }
 
+        if (pro_taste.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入口味描述</div>`;
+        }
+
+        if (pro_taste.value.length < 6) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">口味描述不足</div>`;
+        }
+        if (!isNaN(parseInt(pro_taste.value))) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">口味描述欄位請輸入中文</div>`;
+        }
+
         //飲用溫度
         if (pro_temp.value.length > 6) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度描述過長</div>`;
         }
-
+        
+        if (pro_temp.value.length < 2) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度描述不足</div>`;
+        }
+        
+        if (pro_temp.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入溫度描述</div>`;
+        }
+        if (!isNaN(parseInt(pro_temp.value))) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度欄位請輸入中文</div>`;
+        }
 
         if (isPass) {
 
             const fd = new FormData(document.form1);
+            console.log('3');
 
             fetch('product-edit-api.php', {
                     method: 'POST',
