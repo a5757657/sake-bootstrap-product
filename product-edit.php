@@ -36,13 +36,14 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 <!-- 主要的內容放在 __main_start 與 __main_end 之間 -->
 <!-- edit -->
 <style>
-    #edit-img {
+    #edit_img,
+    #myimg {
         height: 200px;
         text-align: center;
         filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
     }
 
-    .img-div {
+    .img_div {
         text-align: center;
     }
 
@@ -59,11 +60,14 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                 <div class="card-body">
                     <form class="row" name="form1" onsubmit="sendData(); return false;">
 
-                        <?php if ($psake['pro_img']) : ?>
-                            <div class=" img-div">
-                                <img id="edit-img" src="/sake-bootstrap-product/img/<?= $psake['pro_img'] ?>" alt="">
-                            </div>
-                        <?php endif ?>
+                        <div class="img_div" id="img_div">
+                            <?php if ($psake['pro_img']) : ?>
+                                <img id="edit_img" src="/sake-bootstrap-product/img/<?= $psake['pro_img'] ?>" alt="">
+                            <?php endif ?>
+                        </div>
+                        <div class="img_div d_none">
+                            <img src="" id="myimg" />
+                        </div>
 
                         <div class="form-group mb-3">
                             <label for="pro_img" class="mb-2">商品圖片</label>
@@ -278,6 +282,24 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
     //  modal.show() 讓 modal 跳出
 
+    //預覽圖片
+    
+    const pro_img = document.querySelector('#pro_img'); //上傳圖片input
+    const img_div = document.querySelector('#img_div');
+    const d_none = document.querySelector('.d_none');
+
+    pro_img.addEventListener('change', doPreview);
+
+    function doPreview() {
+        img_div.innerHTML = '';
+        d_none.style.display = 'block'
+        const [file] = pro_img.files
+        if (file) {
+
+            document.querySelector("#myimg").src = URL.createObjectURL(file);
+        }
+
+    }
 
     //商品狀態
     let pro_condition_c = document.querySelector('#pro_condition').childNodes; //選取下拉選單的子元素
@@ -330,7 +352,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     });
 
 
-    let pro_img = document.querySelector('#pro_img');
+    //let pro_img = document.querySelector('#pro_img');
     let pro_name = document.querySelector('#pro_name');
     let pro_stock = document.querySelector('#pro_stock');
     let pro_selling = document.querySelector('#pro_selling');
@@ -359,15 +381,15 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
          sendData();
      }) */
 
-     pro_gift.addEventListener('change', function() {
+    pro_gift.addEventListener('change', function() {
 
-         if(pro_gift.value == 3){
+        if (pro_gift.value == 3) {
             container_id.removeAttribute("disabled", "")
-         }else{
+        } else {
             container_id.value = 5;
             container_id.setAttribute("disabled", "")
-         }
-     })
+        }
+    })
 
     function sendData() {
 
@@ -525,12 +547,12 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度描述過長</div>`;
         }
-        
+
         if (pro_temp.value.length < 2) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度描述不足</div>`;
         }
-        
+
         if (pro_temp.value.length <= 0) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入溫度描述</div>`;
