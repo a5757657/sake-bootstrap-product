@@ -18,7 +18,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 <!-- 主要的內容放在 __main_start 與 __main_end 之間 -->
 <!-- edit -->
 <style>
-    #edit-img {
+    #myimg {
         height: 200px;
         text-align: center;
         filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
@@ -40,13 +40,15 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                 <h5 class="card-header py-3">新增商品資料</h5>
                 <div class="card-body">
                     <form class="row" name="form1" onsubmit="sendData(); return false;">
-                        <div class=" img-div">
-                            <img id="edit-img" src="/sake-bootstrap-product/img/M0001.png" alt="">
+
+                        <div class="img-div">
+                            <img src="" id="myimg" />
+                            <!-- <img src="img/M0001.png" id="myimg" /> -->
                         </div>
 
                         <div class="form-group mb-3">
                             <label for="pro_img" class="mb-2">商品圖片</label>
-                            <input type="file" class="form-control" name="pro_img" id="pro_img" />
+                            <input type="file" class="form-control" name="pro_img" id="fuck" />
 
                         </div>
                         <div class="form-group mb-3 col-4">
@@ -253,9 +255,31 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
     //  modal.show() 讓 modal 跳出
 
+    //上傳圖片
+    const fuck = document.querySelector('#fuck') //上傳按鈕
+
+    fuck.addEventListener('change', doUpload);
+
+    function doUpload() {
+
+        const fd = new FormData(document.form1);
+        console.log('66');
+        fetch("product-insert-img-api.php", {
+                method: "POST",
+                body: fd,
+            })
+            .then((r) => r.json())
+            .then((obj) => {
+                if (obj.success) {
+                    document.querySelector("#myimg").src = "img/" + obj.filename;
+                } else {
+                    obj.error;
+                }
+            });
+    }
 
 
-    let pro_img = document.querySelector('#pro_img');
+    //let pro_img = document.querySelector('#pro_img');
     let pro_name = document.querySelector('#pro_name');
     let pro_stock = document.querySelector('#pro_stock');
     let pro_selling = document.querySelector('#pro_selling');
