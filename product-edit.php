@@ -20,9 +20,11 @@ if (empty($psake)) {
     exit;
 }
 
+//禮盒樣式
 $pro_mark = "SELECT * FROM `product_gift` WHERE 1";
 $pro_marks = $pdo->query($pro_mark)->fetchAll();
 
+//酒器樣式
 $pro_con = "SELECT * FROM `product_container` WHERE 1";
 $pro_cons = $pdo->query($pro_con)->fetchAll();
 
@@ -345,9 +347,27 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     let warning = document.querySelector('.warning');
     let edit_btn = document.querySelector('#edit_btn');
 
+    let pro_condition = document.querySelector('#pro_condition');
+    let pro_loca = document.querySelector('#pro_loca');
+    let pro_level = document.querySelector('#pro_level');
+    let pro_gift = document.querySelector('#pro_gift');
+    let pro_mark = document.querySelector('#pro_mark');
+    let container_id = document.querySelector('#container_id');
+
+
     /*  edit_btn.addEventListener('click', function() {
          sendData();
      }) */
+
+     pro_gift.addEventListener('change', function() {
+
+         if(pro_gift.value == 3){
+            container_id.removeAttribute("disabled", "")
+         }else{
+            container_id.value = 5;
+            container_id.setAttribute("disabled", "")
+         }
+     })
 
     function sendData() {
 
@@ -518,6 +538,42 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
         if (!isNaN(parseInt(pro_temp.value))) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">飲用溫度欄位請輸入中文</div>`;
+        }
+
+        //商品狀態
+        if (pro_condition.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇商品狀態</div>`;
+        }
+
+        //產地
+        if (pro_loca.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇產地</div>`;
+        }
+
+        //等級
+        if (pro_level.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇等級</div>`;
+        }
+
+        //禮盒
+        if (pro_gift.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇禮盒</div>`;
+        }
+
+        //是否客製化
+        if (pro_mark.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇是否客製化</div>`;
+        }
+
+        //酒器
+        if (container_id.value.length <= 0) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇是否客製化</div>`;
         }
 
         if (isPass) {
