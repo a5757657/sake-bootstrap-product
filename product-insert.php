@@ -48,7 +48,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
                         <div class="form-group mb-3">
                             <label for="pro_img" class="mb-2">商品圖片</label>
-                            <input type="file" class="form-control" name="pro_img" id="fuck" />
+                            <input type="file" class="form-control" name="pro_img" id="pro_img" accept=".jpg,.jpeg,.png,.gif" />
 
                         </div>
                         <div class="form-group mb-3 col-4">
@@ -256,9 +256,18 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     //  modal.show() 讓 modal 跳出
 
     //上傳圖片
-    const fuck = document.querySelector('#fuck') //上傳按鈕
+    const pro_img = document.querySelector('#pro_img') //上傳按鈕
 
-    fuck.addEventListener('change', doUpload);
+    pro_img.addEventListener('change', doPreview);
+
+    function doPreview(){
+       
+            const [file] = pro_img.files
+            if (file) {
+                document.querySelector("#myimg").src = URL.createObjectURL(file)
+            }
+        
+    }
 
     function doUpload() {
 
@@ -270,7 +279,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             })
             .then((r) => r.json())
             .then((obj) => {
-                if (obj.success) {
+                if (obj.success) {4
                     document.querySelector("#myimg").src = "img/" + obj.filename;
                 } else {
                     obj.error;
@@ -279,7 +288,6 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     }
 
 
-    //let pro_img = document.querySelector('#pro_img');
     let pro_name = document.querySelector('#pro_name');
     let pro_stock = document.querySelector('#pro_stock');
     let pro_selling = document.querySelector('#pro_selling');
@@ -320,6 +328,13 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
         warning.innerHTML = ' ';
 
+        
+
+        //商品名稱
+        if (!pro_img.value) {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請上傳商品圖片</div>`;
+        }
         //商品名稱
         if (pro_name.value.length > 50) {
             isPass = false;

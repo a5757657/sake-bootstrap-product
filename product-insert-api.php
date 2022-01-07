@@ -11,7 +11,8 @@ $s_stock = $_POST['pro_stock'] ?? '';
 $s_selling = $_POST['pro_selling'] ?? '';
 $s_intro = $_POST['pro_intro'] ?? '';
 $s_condition = $_POST['pro_condition'] ?? '';
-$pro_img = 'M0099.png';
+$pro_img = $_POST['pro_img'] ?? '';
+//$pro_img = 'M0032.png';
 
 
 $f_price = $_POST['pro_price'] ?? '';
@@ -29,6 +30,29 @@ $f_gift = $_POST['pro_gift'] ?? '';
 $f_mark = $_POST['pro_mark'] ?? '';
 $f_container_id = $_POST['container_id'] ?? '5';
 
+
+if (!empty($_FILES['pro_img'])) {
+
+    $ext = $exts[$_FILES['pro_img']['type']]; //拿到對應的副檔名
+
+    if (!empty($ext)) {
+
+        $filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $output['ext'] = $ext;
+        $target = $upload_folder . '/' . $filename;
+
+        if (move_uploaded_file($_FILES['pro_img']['tmp_name'], $target)) {
+            $output['success'] = true;
+            $output['filename'] = $filename;
+        } else {
+            $output['error'] = '無法移動檔案';
+        }
+    } else {
+        $output['error'] = '不合法的檔案類型';
+    }
+} else {
+    $output['error'] = '沒有上傳檔案';
+}
 
 $sql1 = "INSERT INTO `product_format`(
                                         `pro_price`, 
