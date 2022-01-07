@@ -54,7 +54,12 @@ $rows = $pdo->query($sql)->fetchAll();
 </style>
 
 <div class="d-flex justify-content-between mt-5">
-    <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
+    <div>
+        <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
+        <a href="product-insert.php"><button type="button" class="btn btn-secondary btn-sm">新增商品</button></a>
+
+    </div>
+
     <nav aria-label="Page navigation example">
         <ul class="pagination">
 
@@ -212,6 +217,7 @@ $rows = $pdo->query($sql)->fetchAll();
 
     //刪除單筆、多筆資料
     function delete_it(sid) {
+        
         let alertModal = document.querySelector('#alertModal');
         let confirmDel = document.querySelector('.confirmDel');
         alertModal.innerHTML = `確定要刪除編號為 ${sid} 的資料嗎?`
@@ -237,8 +243,8 @@ $rows = $pdo->query($sql)->fetchAll();
     //全選功能
     function check() {
 
-        let check = document.querySelectorAll('.check');
         let checkAll = document.querySelector('#checkAll');
+        let check = document.querySelectorAll('.check');
 
         if (checkAll.checked == true) {
 
