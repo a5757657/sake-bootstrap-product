@@ -31,28 +31,6 @@ $f_mark = $_POST['pro_mark'] ?? '';
 $f_container_id = $_POST['container_id'] ?? '5';
 
 
-if (!empty($_FILES['pro_img'])) {
-
-    $ext = $exts[$_FILES['pro_img']['type']]; //拿到對應的副檔名
-
-    if (!empty($ext)) {
-
-        $filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
-        $output['ext'] = $ext;
-        $target = $upload_folder . '/' . $filename;
-
-        if (move_uploaded_file($_FILES['pro_img']['tmp_name'], $target)) {
-            $output['success'] = true;
-            $output['filename'] = $filename;
-        } else {
-            $output['error'] = '無法移動檔案';
-        }
-    } else {
-        $output['error'] = '不合法的檔案類型';
-    }
-} else {
-    $output['error'] = '沒有上傳檔案';
-}
 
 $sql1 = "INSERT INTO `product_format`(
                                         `pro_price`, 
@@ -119,34 +97,70 @@ if ($s_condition == '已下架') {
     $s_c_time = date_format($date, 'Y-m-d H:i:s');
 }
 
-$sql2 = "INSERT INTO `product_sake`(
-                                    `pro_name`, 
-                                    `pro_stock`, 
-                                    `pro_selling`, 
-                                    `pro_intro`, 
-                                    `pro_condition`, 
-                                    `format_id`,
-                                    `pro_img`,
-                                    `pro_creat_time`,
-                                    `pro_unsell_time`
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$upload_folder = __DIR__ .'/img';
 
-$stmt2 = $pdo->prepare($sql2);
+$exts = [
+    'image/jpeg' => '.jpg',
+    'image/png' => '.png',
+    'image/gif' => '.gif'
+];
 
-$stmt2->execute([
-    $s_name,
-    $s_stock,
-    $s_selling,
-    $s_intro,
-    $s_condition,
-    $format_id,
-    $pro_img,
-    $s_u_time,
-    $s_c_time
-]);
+if (!empty($_FILES['pro_img'])) {
 
-$output['success'] = $stmt2->rowCount() == 1;
-$output['rowCount'] = $stmt2->rowCount();
+    $ext = $exts[$_FILES['pro_img']['type']]; //拿到對應的副檔名
+
+    if (!empty($ext)) {
+
+        //$filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $output['ext'] = $ext;
+        $target = $upload_folder . '/' . $filename;
+
+        if (move_uploaded_file($_FILES['pro_img']['tmp_name'], $target)) {
+
+            $sql2 = "INSERT INTO `product_sake`(
+                `pro_name`, 
+                `pro_stock`, 
+                `pro_selling`, 
+                `pro_intro`, 
+                `pro_condition`, 
+                `format_id`,
+                `pro_img`,
+                `pro_creat_time`,
+                `pro_unsell_time`
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            $stmt2 = $pdo->prepare($sql2);
+
+            $stmt2->execute([
+                $s_name,
+                $s_stock,
+                $s_selling,
+                $s_intro,
+                $s_condition,
+                $format_id,
+                $filename,
+                $s_u_time,
+                $s_c_time
+            ]);
+
+            $output['success'] = $stmt2->rowCount() == 1;
+            $output['rowCount'] = $stmt2->rowCount();
+
+            $output['success'] = true;
+            $output['filename'] = $filename;
+        } else {
+            $output['error'] = '無法移動檔案';
+        }
+    } else {
+        $output['error'] = '不合法的檔案類型';
+    }
+} else {
+    $output['error'] = '沒有上傳檔案';
+}
+
+
+
 
 
 echo json_encode($output, JSON_UNESCAPED_UNICODE);

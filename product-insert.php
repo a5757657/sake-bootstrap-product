@@ -218,7 +218,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         <!--警警告文字 -->
                         <div class="form-group mb-3 warning"></div>
                         <div class="d-flex justify-content-center">
-                            <button type="submit" class="btn btn-secondary w-25">新增</button>
+                            <button type="submit" class="btn btn-secondary w-25" id="upload">新增</button>
                         </div>
 
                     </form>
@@ -255,31 +255,32 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
     //  modal.show() 讓 modal 跳出
 
-    //上傳圖片
-    const pro_img = document.querySelector('#pro_img') //上傳按鈕
+    //預覽圖片
+    const pro_img = document.querySelector('#pro_img') //上傳圖片按鈕
 
     pro_img.addEventListener('change', doPreview);
 
-    function doPreview(){
-       
-            const [file] = pro_img.files
-            if (file) {
-                document.querySelector("#myimg").src = URL.createObjectURL(file)
-            }
-        
+    function doPreview() {
+
+        const [file] = pro_img.files
+        if (file) {
+            document.querySelector("#myimg").src = URL.createObjectURL(file)
+        }
+
     }
 
-    function doUpload() {
 
+    function doUpload() {
         const fd = new FormData(document.form1);
-        console.log('66');
-        fetch("product-insert-img-api.php", {
+        console.log('33');
+        fetch("product-insert-api.php", {
                 method: "POST",
                 body: fd,
             })
             .then((r) => r.json())
             .then((obj) => {
-                if (obj.success) {4
+                if (obj.success) {
+                    4
                     document.querySelector("#myimg").src = "img/" + obj.filename;
                 } else {
                     obj.error;
@@ -328,7 +329,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
         warning.innerHTML = ' ';
 
-        
+
 
         //商品名稱
         if (!pro_img.value) {
@@ -539,7 +540,6 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
         if (isPass) {
 
             const fd = new FormData(document.form1);
-            console.log('3');
 
             fetch('product-insert-api.php', {
                     method: 'POST',

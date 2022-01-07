@@ -4,7 +4,7 @@
 $title = '商品管理';
 
 //每一頁出現幾筆資料
-$perPage = 5;
+$perPage = 8;
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
 //總比數
@@ -96,8 +96,8 @@ $rows = $pdo->query($sql)->fetchAll();
                     <input class="form-check-input" type="checkbox" value="" id="checkAll" onclick="check() //選取全部的checkbox " />
                 </th>
                 <th class="col-1 text-center">刪除</th>
-                <th class="col-1">商品id</th>
-                <th class="col-2">圖片</th>
+                <th class="col-1 text-center">商品id</th>
+                <th class="col-2 text-center">圖片</th>
                 <th class="col-2">名稱</th>
                 <th class="col-1">庫存</th>
                 <th class="col-1">銷售量</th>
@@ -152,8 +152,8 @@ $rows = $pdo->query($sql)->fetchAll();
                     <td class="col-1 text-center">
                         <a href="javascript: delete_it(<?= $r['pro_id'] ?>)"><i class="fas fa-trash"></i></a>
                     </td>
-                    <td class="col-1" id="sid"> <?= $r['pro_id'] ?> </td>
-                    <td class="col-2"><img class="pro_img" src="/sake-bootstrap/img/<?= $r['pro_img'] ?>" alt=""></td>
+                    <td class="col-1 text-center" id="sid"> <?= $r['pro_id'] ?> </td>
+                    <td class="col-2 text-center"><img class="pro_img" src="/sake-bootstrap-product/img/<?= $r['pro_img'] ?>" alt=""></td>
                     <td class="col-2"><?= htmlentities($r['pro_name']) ?></td>
                     <td class="col-1"><?= $r['pro_stock'] ?></td>
                     <td class="col-1"><?= $r['pro_selling'] ?></td>
