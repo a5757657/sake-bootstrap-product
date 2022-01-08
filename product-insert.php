@@ -32,6 +32,11 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
         font-size: .1rem;
         color: #666;
     }
+
+    .fla,
+    .tem {
+        cursor: pointer;
+    }
 </style>
 <div class="mt-5">
     <div class="row justify-content-center">
@@ -178,11 +183,24 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
 
                         <div class="form-group mb-3 col-3">
-                            <label for="pro_taste" class="mb-2">口味描述<small><span>偏酸</span> <span>偏甜</span> <span>辛口</span> <span>甘口</span><span>輕盈</span><span>適中</span></small></label>
+                            <label for="pro_taste" class="mb-2">口味描述<small>
+                                    <span class="fla fla1">偏酸</span>
+                                    <span class="fla fla2">偏甜</span>
+                                    <span class="fla fla3">辛口</span>
+                                    <span class="fla fla4">甘口</span>
+                                    <span class="fla fla5">輕盈</span>
+                                    <span class="fla fla6">適中</span>
+                                    <span class="fla fla7">清空</span>
+                                </small></label>
                             <input type="text" class="form-control" name="pro_taste" id="pro_taste" />
                         </div>
                         <div class="form-group mb-3 col-3">
-                            <label for="pro_temp" class="mb-2">飲用溫度<small> 冷酒 常溫 燗酒</small></label>
+                            <label for="pro_temp" class="mb-2">飲用溫度<small>
+                                    <span class="tem tem1">冷酒</span>
+                                    <span class="tem tem2">常溫</span>
+                                    <span class="tem tem3">燗酒</span>
+                                    <span class="tem tem4">清空</span>
+                                </small></label>
                             <input type="text" class="form-control" name="pro_temp" id="pro_temp" />
                         </div>
                         <div class="form-group mb-3 col-4">
@@ -257,6 +275,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     //預覽圖片
     const pro_img = document.querySelector('#pro_img') //上傳圖片按鈕
 
+    //預覽圖片
     pro_img.addEventListener('change', doPreview);
 
     function doPreview() {
@@ -268,7 +287,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
     }
 
-
+    //上傳圖片
     function doUpload() {
         const fd = new FormData(document.form1);
         console.log('33');
@@ -285,7 +304,6 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                 }
             });
     }
-
 
     let pro_name = document.querySelector('#pro_name');
     let pro_stock = document.querySelector('#pro_stock');
@@ -310,6 +328,84 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     let pro_mark = document.querySelector('#pro_mark');
     let container_id = document.querySelector('#container_id');
 
+    //口味描述按鈕
+    let fla1 = document.querySelector('.fla1');
+    let fla2 = document.querySelector('.fla2');
+    let fla3 = document.querySelector('.fla3');
+    let fla4 = document.querySelector('.fla4');
+    let fla5 = document.querySelector('.fla5');
+    let fla6 = document.querySelector('.fla6');
+    let fla7 = document.querySelector('.fla7');
+
+    //溫度按鈕
+    let tem1 = document.querySelector('.tem1');
+    let tem2 = document.querySelector('.tem2');
+    let tem3 = document.querySelector('.tem3');
+    let tem4 = document.querySelector('.tem4');
+
+    //口味按鈕
+    fla1.addEventListener('click', function() {
+        if (pro_taste.value.indexOf('偏酸') == '-1' && pro_taste.value.indexOf('偏甜') == '-1') {
+            pro_taste.value += '偏酸';
+        }
+    })
+
+    fla2.addEventListener('click', function() {
+        if (pro_taste.value.indexOf('偏甜') == '-1' && pro_taste.value.indexOf('偏酸') == '-1') {
+            pro_taste.value += '偏甜';
+        }
+    })
+
+    fla3.addEventListener('click', function() {
+        if (pro_taste.value.indexOf('辛口') == '-1' && pro_taste.value.indexOf('甘口') == '-1') {
+            pro_taste.value += '辛口'
+        }
+    })
+
+    fla4.addEventListener('click', function() {
+        if (pro_taste.value.indexOf('辛口') == '-1' && pro_taste.value.indexOf('甘口') == '-1') {
+            pro_taste.value += '甘口'
+        }
+    })
+
+    fla5.addEventListener('click', function() {
+        if (pro_taste.value.indexOf('輕盈') == '-1' && pro_taste.value.indexOf('適中') == '-1') {
+            pro_taste.value += '輕盈'
+        }
+    })
+
+    fla6.addEventListener('click', function() {
+        if (pro_taste.value.indexOf('輕盈') == '-1' && pro_taste.value.indexOf('適中') == '-1') {
+            pro_taste.value += '適中'
+        }
+    })
+
+    fla7.addEventListener('click', function() {
+        pro_taste.value = '';
+    })
+    
+    //飲用溫度
+    tem1.addEventListener('click', function() {
+        if (pro_temp.value.indexOf('冷酒') == '-1') {
+            pro_temp.value += '冷酒'
+        }
+    })
+
+    tem2.addEventListener('click', function() {
+        if (pro_temp.value.indexOf('常溫') == '-1') {
+            pro_temp.value += '常溫'
+        }
+    })
+
+    tem3.addEventListener('click', function() {
+        if (pro_temp.value.indexOf('燗酒') == '-1') {
+            pro_temp.value += '燗酒'
+        }
+    })
+
+    tem4.addEventListener('click', function() {
+        pro_temp.value = '';
+    })
 
     pro_gift.addEventListener('change', function() {
 
@@ -460,12 +556,12 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
         }
 
         //口味描述
-        if (pro_taste.value.length > 20) {
+        if (pro_taste.value.length > 6) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">口味描述過長</div>`;
         }
 
-        if (pro_taste.value.length <= 0) {
+        if (pro_taste.value.length < 2) {
             isPass = false;
             warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請輸入口味描述</div>`;
         }
@@ -547,7 +643,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                     if (obj.success) {
                         document.querySelector('#alertModal').innerHTML = '新增成功';
                         modal.show();
-                        
+
                         document.querySelector('#comfirm').addEventListener('click', function() {
                             location.href = `product.php`;
                         })
