@@ -52,13 +52,13 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
         font-size: .1rem;
         color: #666;
     }
-    
+
     .fla,
     .tem {
         cursor: pointer;
     }
 </style>
-<div class="mt-5">
+<div class="mt-4 mb-4">
     <div class="row justify-content-center">
         <div class="col-11">
             <div class="card">
@@ -259,7 +259,8 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
                         <!--警警告文字 -->
                         <div class="form-group mb-3 warning"></div>
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-around mb-3">
+                            <a href="product.php" class="btn btn-secondary w-25">返回</a>
                             <button type="submit" class="btn btn-secondary w-25">修改</button>
                         </div>
                         <input type="hidden" name="pro_id" value="<?= $psake['pro_id'] ?>">
