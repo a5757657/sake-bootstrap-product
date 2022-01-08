@@ -52,6 +52,7 @@ $rows = $pdo->query($sql)->fetchAll();
     /* .fa-trash {
         text-align: center;
     } */
+    
 </style>
 
 <div class="d-flex justify-content-between mt-5">
