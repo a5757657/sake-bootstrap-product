@@ -62,7 +62,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
                         <div class="img_div" id="img_div">
                             <?php if ($psake['pro_img']) : ?>
-                                <img id="edit_img" src="/sake-bootstrap-product/img/<?= $psake['pro_img'] ?>" alt="">
+                                <img id="edit_img" src="img/<?= $psake['pro_img'] ?>" alt="">
                             <?php endif ?>
                         </div>
                         <div class="img_div d_none">
@@ -283,7 +283,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
     //  modal.show() 讓 modal 跳出
 
     //預覽圖片
-    
+
     const pro_img = document.querySelector('#pro_img'); //上傳圖片input
     const img_div = document.querySelector('#img_div');
     const d_none = document.querySelector('.d_none');
@@ -292,13 +292,30 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
     function doPreview() {
         img_div.innerHTML = '';
-        d_none.style.display = 'block'
+        d_none.style.display = 'block';
         const [file] = pro_img.files
         if (file) {
 
             document.querySelector("#myimg").src = URL.createObjectURL(file);
         }
 
+    }
+
+    function doUpload() {
+        const fd = new FormData(document.form1);
+        console.log('33');
+        fetch("product-insert-api.php", {
+                method: "POST",
+                body: fd,
+            })
+            .then((r) => r.json())
+            .then((obj) => {
+                if (obj.success) {
+                    document.querySelector("#myimg").src = "img/" + obj.filename;
+                } else {
+                    obj.error;
+                }
+            });
     }
 
     //商品狀態

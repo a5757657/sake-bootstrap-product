@@ -45,14 +45,13 @@ $f_mark = $_POST['pro_mark'] ?? '';
 $f_container_id = $_POST['container_id'] ?? '';
 
 
-
 $sql_1 = "UPDATE `product_sake` SET 
                           `pro_name`=?,
                           `pro_stock`=?,
                           `pro_selling`=?,
                           `pro_intro`=?,
                           `pro_condition`=?
-WHERE `pro_id`=?";
+            WHERE `pro_id`=?";
 
 
 $stmt_1 = $pdo->prepare($sql_1);
@@ -71,6 +70,9 @@ if ($stmt_1->rowCount() == 0) {
 } else {
     $output['success'] = true;
 }
+
+
+
 
 
 $sql_2 = "UPDATE `product_format` SET 
@@ -157,105 +159,4 @@ $stmt_3->execute([
     $s_id
 ]);
 
-/* if ($condition !== $s_condition) {
-
-
-    if ($stmt_3->rowCount() == 0) {
-        $output['error'] = '資料沒有修改';
-    } else {
-        $output['success'] = true;
-    }
-    
-} else {
-
-    $s_u_time = $_POST['pro_unsell_time'];
-    $s_c_time = $_POST['pro_creat_time'];
-
-    $sql_3 = "UPDATE `product_sake` SET 
-                                  `pro_creat_time`=?,
-                                  `pro_unsell_time`=?
-        WHERE `pro_id`=?";
-
-
-    $stmt_3 = $pdo->prepare($sql_3);
-
-    $stmt_3->execute([
-        $s_c_time,
-        $s_u_time,
-        $s_id
-    ]);
-
-    if ($stmt_3->rowCount() == 0) {
-        $output['error'] = '資料沒有修改';
-    } else {
-        $output['success'] = true;
-    }
-} */
-
 echo json_encode($output, JSON_UNESCAPED_UNICODE);
-
-/* if ($condition !== $s_condition) {
-
-    if ($s_condition == '已上架') {
-
-        $s_c_time = date_format($date, 'Y-m-d H:i:s');
-        $s_u_time = $_POST['pro_unsell_time'];
-    }
-    if ($s_condition == '已下架') {
-
-        $s_c_time = $_POST['pro_creat_time'];
-        $s_u_time = date_format($date, 'Y-m-d H:i:s');
-    }
-
-    if ($s_condition == '補貨中') {
-        $s_u_time = $_POST['pro_unsell_time'];
-        $s_c_time = $_POST['pro_creat_time'];
-    }
-
-    $sql_3 = "UPDATE `product_sake` SET 
-                              `pro_creat_time`=?,
-                              `pro_unsell_time`=?
-    WHERE `pro_id`=?";
-
-
-    $stmt_3 = $pdo->prepare($sql_3);
-
-    $stmt_3->execute([
-        $s_c_time,
-        $s_u_time,
-        $s_id
-    ]);
-
-    if ($stmt_3->rowCount() == 0) {
-        $output['error'] = '資料沒有修改';
-    } else {
-        $output['success'] = true;
-    }
-    
-} else {
-
-    $s_u_time = $_POST['pro_unsell_time'];
-    $s_c_time = $_POST['pro_creat_time'];
-
-    $sql_3 = "UPDATE `product_sake` SET 
-                                  `pro_creat_time`=?,
-                                  `pro_unsell_time`=?
-        WHERE `pro_id`=?";
-
-
-    $stmt_3 = $pdo->prepare($sql_3);
-
-    $stmt_3->execute([
-        $s_c_time,
-        $s_u_time,
-        $s_id
-    ]);
-
-    if ($stmt_3->rowCount() == 0) {
-        $output['error'] = '資料沒有修改';
-    } else {
-        $output['success'] = true;
-    }
-}
-
-echo json_encode($output, JSON_UNESCAPED_UNICODE); */
