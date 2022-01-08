@@ -75,7 +75,7 @@ if (!empty($_FILES['pro_img'])) {
             ]);
 
             if ($stmt_4->rowCount() == 0) {
-                $output['error'] = '資料沒有修改1';
+                $output['error'] = '資料沒有修改';
             } else {
                 $output['success'] = true;
             }
@@ -110,7 +110,7 @@ $stmt_1->execute([
 ]);
 
 if ($stmt_1->rowCount() == 0) {
-    $output['error'] = '資料沒有修改2';
+    $output['error'] = '資料沒有修改';
 } else {
     $output['success'] = true;
 }
@@ -154,7 +154,7 @@ $stmt_2->execute([
 ]);
 
 if ($stmt_2->rowCount() == 0) {
-    $output['error'] = '資料沒有修改3';
+    $output['error'] = '資料沒有修改';
 } else {
     $output['success'] = true;
 }
@@ -211,7 +211,7 @@ $stmt_3->execute([
 ]);
 
 if ($stmt_3->rowCount() == 0) {
-    $output['error'] = '資料沒有修改4';
+    $output['error'] = '資料沒有修改';
 } else {
     $output['success'] = true;
 }
