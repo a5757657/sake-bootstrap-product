@@ -43,7 +43,6 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
                         <div class="img-div">
                             <img src="" id="myimg" />
-                            <!-- <img src="img/M0001.png" id="myimg" /> -->
                         </div>
 
                         <div class="form-group mb-3">
@@ -280,7 +279,6 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
             .then((r) => r.json())
             .then((obj) => {
                 if (obj.success) {
-                    4
                     document.querySelector("#myimg").src = "img/" + obj.filename;
                 } else {
                     obj.error;

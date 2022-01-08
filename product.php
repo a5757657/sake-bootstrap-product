@@ -153,7 +153,7 @@ $rows = $pdo->query($sql)->fetchAll();
                         <a href="javascript: delete_it(<?= $r['pro_id'] ?>)"><i class="fas fa-trash"></i></a>
                     </td>
                     <td class="col-1 text-center" id="sid"> <?= $r['pro_id'] ?> </td>
-                    <td class="col-2 text-center"><img class="pro_img" src="/sake-bootstrap-product/img/<?= $r['pro_img'] ?>" alt=""></td>
+                    <td class="col-2 text-center"><img class="pro_img" src="img/<?= $r['pro_img'] ?>" alt=""></td>
                     <td class="col-2"><?= htmlentities($r['pro_name']) ?></td>
                     <td class="col-1"><?= $r['pro_stock'] ?></td>
                     <td class="col-1"><?= $r['pro_selling'] ?></td>
