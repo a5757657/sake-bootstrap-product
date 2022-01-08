@@ -628,7 +628,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
         //酒器
         if (container_id.value.length <= 0) {
             isPass = false;
-            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇是否客製化</div>`;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">請選擇酒器</div>`;
         }
 
         if (isPass) {
