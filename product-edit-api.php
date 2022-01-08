@@ -71,10 +71,6 @@ if ($stmt_1->rowCount() == 0) {
     $output['success'] = true;
 }
 
-
-
-
-
 $sql_2 = "UPDATE `product_format` SET 
                           `pro_price`=?,
                           `pro_capacity`=?,
@@ -120,6 +116,55 @@ if ($stmt_2->rowCount() == 0) {
 }
 
 
+
+$upload_folder = __DIR__ . '/img';
+
+$exts = [
+    'image/jpeg' => '.jpg',
+    'image/png' => '.png',
+    'image/gif' => '.gif'
+];
+
+if (!empty($_FILES['pro_img'])) {
+
+    $ext = $exts[$_FILES['pro_img']['type']]; //拿到對應的副檔名
+
+    if (!empty($ext)) {
+
+        //$filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $output['ext'] = $ext;
+        $target = $upload_folder . '/' . $filename;
+
+        if (move_uploaded_file($_FILES['pro_img']['tmp_name'], $target)) {
+
+            $sql_4 = "UPDATE `product_sake` SET `pro_img`=? WHERE `pro_id`=?";
+
+            $stmt_4 = $pdo->prepare($sql_4);
+
+            $stmt_4->execute([
+                $filename,
+                $s_id
+            ]);
+
+            if ($stmt_4->rowCount() == 0) {
+                $output['error'] = '資料沒有修改';
+            } else {
+                $output['success'] = true;
+            }
+            
+        } else {
+            $output['error'] = '無法移動檔案';
+        }
+    } else {
+        $output['error'] = '不合法的檔案類型';
+    }
+} else {
+    $output['error'] = '沒有上傳檔案';
+}
+
+
+
 $condition = $pdo->query("SELECT `pro_condition` FROM `product_sake` WHERE `product_sake`.`pro_id` = $s_id ")->fetch();
 $condition = $condition['pro_condition'];
 
@@ -158,5 +203,11 @@ $stmt_3->execute([
     $s_u_time,
     $s_id
 ]);
+
+if ($stmt_3->rowCount() == 0) {
+    $output['error'] = '資料沒有修改';
+} else {
+    $output['success'] = true;
+}
 
 echo json_encode($output, JSON_UNESCAPED_UNICODE);
