@@ -178,7 +178,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
 
                         <div class="form-group mb-3 col-3">
-                            <label for="pro_taste" class="mb-2">口味描述<small> 偏酸 偏甜 辛口 甘口 輕盈 適中</small></label>
+                            <label for="pro_taste" class="mb-2">口味描述<small><span>偏酸</span> <span>偏甜</span> <span>辛口</span> <span>甘口</span><span>輕盈</span><span>適中</span></small></label>
                             <input type="text" class="form-control" name="pro_taste" id="pro_taste" />
                         </div>
                         <div class="form-group mb-3 col-3">
@@ -547,6 +547,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                     if (obj.success) {
                         document.querySelector('#alertModal').innerHTML = '新增成功';
                         modal.show();
+                        
                         document.querySelector('#comfirm').addEventListener('click', function() {
                             location.href = `product.php`;
                         })
