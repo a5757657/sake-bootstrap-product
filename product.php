@@ -227,19 +227,12 @@ $rows = $pdo->query($sql)->fetchAll();
             modal.show();
 
             confirmDel.addEventListener('click', function() {
-                location.href = `product-del.php?sid=${sid}`;
+                location.href = `product-del-api.php?sid=${sid}`;
             })
 
         }
     }
 
-    /* function delete_it(sid) {
-        let alertModal = document.querySelector('#alertModal')
-
-        if (confirm(`確定要刪除編號為 ${sid} 的資料嗎?`)) {
-            location.href = `product-del.php?sid=${sid}`;
-        }
-    } */
 
     //全選功能
     function check() {
