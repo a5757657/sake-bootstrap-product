@@ -1,5 +1,6 @@
 <?php require __DIR__ . '/parts/__connect_db.php' ?>
 <?php
+
 $title = '商品列表 - 修改頁面';
 
 if (!isset($_GET['pro_id'])) {

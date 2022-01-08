@@ -1,5 +1,5 @@
 <?php require __DIR__ . '/parts/__connect_db.php';
-
+error_reporting(0);
 $output = [
     'success' => false,
     'code' => 0,
@@ -44,6 +44,50 @@ $f_gift = $_POST['pro_gift'] ?? '';
 $f_mark = $_POST['pro_mark'] ?? '';
 $f_container_id = $_POST['container_id'] ?? '';
 
+$upload_folder = __DIR__ . '/img';
+
+$exts = [
+    'image/jpeg' => '.jpg',
+    'image/png' => '.png',
+    'image/gif' => '.gif'
+];
+
+if (!empty($_FILES['pro_img'])) {
+
+    $ext = $exts[$_FILES['pro_img']['type']]; //拿到對應的副檔名
+
+    if (!empty($ext)) {
+
+        //$filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $output['ext'] = $ext;
+        $target = $upload_folder . '/' . $filename;
+
+        if (move_uploaded_file($_FILES['pro_img']['tmp_name'], $target)) {
+
+            $sql_4 = "UPDATE `product_sake` SET `pro_img`=? WHERE `pro_id`=?";
+
+            $stmt_4 = $pdo->prepare($sql_4);
+
+            $stmt_4->execute([
+                $filename,
+                $s_id
+            ]);
+
+            if ($stmt_4->rowCount() == 0) {
+                $output['error'] = '資料沒有修改1';
+            } else {
+                $output['success'] = true;
+            }
+        } else {
+            $output['error'] = '無法移動檔案';
+        }
+    } else {
+        $output['error'] = '不合法的檔案類型';
+    }
+} else {
+    $output['error'] = '沒有上傳檔案';
+}
 
 $sql_1 = "UPDATE `product_sake` SET 
                           `pro_name`=?,
@@ -66,7 +110,7 @@ $stmt_1->execute([
 ]);
 
 if ($stmt_1->rowCount() == 0) {
-    $output['error'] = '資料沒有修改';
+    $output['error'] = '資料沒有修改2';
 } else {
     $output['success'] = true;
 }
@@ -110,58 +154,13 @@ $stmt_2->execute([
 ]);
 
 if ($stmt_2->rowCount() == 0) {
-    $output['error'] = '資料沒有修改';
+    $output['error'] = '資料沒有修改3';
 } else {
     $output['success'] = true;
 }
 
 
 
-$upload_folder = __DIR__ . '/img';
-
-$exts = [
-    'image/jpeg' => '.jpg',
-    'image/png' => '.png',
-    'image/gif' => '.gif'
-];
-
-if (!empty($_FILES['pro_img'])) {
-
-    $ext = $exts[$_FILES['pro_img']['type']]; //拿到對應的副檔名
-
-    if (!empty($ext)) {
-
-        //$filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
-        $filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
-        $output['ext'] = $ext;
-        $target = $upload_folder . '/' . $filename;
-
-        if (move_uploaded_file($_FILES['pro_img']['tmp_name'], $target)) {
-
-            $sql_4 = "UPDATE `product_sake` SET `pro_img`=? WHERE `pro_id`=?";
-
-            $stmt_4 = $pdo->prepare($sql_4);
-
-            $stmt_4->execute([
-                $filename,
-                $s_id
-            ]);
-
-            if ($stmt_4->rowCount() == 0) {
-                $output['error'] = '資料沒有修改';
-            } else {
-                $output['success'] = true;
-            }
-            
-        } else {
-            $output['error'] = '無法移動檔案';
-        }
-    } else {
-        $output['error'] = '不合法的檔案類型';
-    }
-} else {
-    $output['error'] = '沒有上傳檔案';
-}
 
 
 
@@ -173,22 +172,29 @@ $s_c_time;
 
 $date = date_create(); //現在時間
 
-if ($s_condition == '已上架') {
+if ($condition !== $s_condition) {
 
-    $s_c_time = date_format($date, 'Y-m-d H:i:s');
-    $s_u_time = $_POST['pro_unsell_time'];
+    if ($s_condition == '已上架') {
+
+        $s_c_time = date_format($date, 'Y-m-d H:i:s');
+        $s_u_time = $_POST['pro_unsell_time'];
+    }
+
+    if ($s_condition == '已下架') {
+
+        $s_c_time = $_POST['pro_creat_time'];
+        $s_u_time = date_format($date, 'Y-m-d H:i:s');
+    }
+
+    if ($s_condition == '補貨中') {
+        $s_u_time = $_POST['pro_unsell_time'];
+        $s_c_time = $_POST['pro_creat_time'];
+    }
 }
 
-if ($s_condition == '已下架') {
+$s_u_time = $_POST['pro_unsell_time'];
+$s_c_time = $_POST['pro_creat_time'];
 
-    $s_c_time = $_POST['pro_creat_time'];
-    $s_u_time = date_format($date, 'Y-m-d H:i:s');
-}
-
-if ($s_condition == '補貨中') {
-    $s_u_time = $_POST['pro_unsell_time'];
-    $s_c_time = $_POST['pro_creat_time'];
-}
 
 $sql_3 = "UPDATE `product_sake` SET 
                           `pro_creat_time`=?,
@@ -205,7 +211,7 @@ $stmt_3->execute([
 ]);
 
 if ($stmt_3->rowCount() == 0) {
-    $output['error'] = '資料沒有修改';
+    $output['error'] = '資料沒有修改4';
 } else {
     $output['success'] = true;
 }
