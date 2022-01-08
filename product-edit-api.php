@@ -59,7 +59,7 @@ if (!empty($_FILES['pro_img'])) {
     if (!empty($ext)) {
 
         //$filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
-        $filename = sha1($_FILES['pro_img']['name'] . rand()) . $ext;
+        $filename = $_FILES['pro_img']['name'] . $ext;
         $output['ext'] = $ext;
         $target = $upload_folder . '/' . $filename;
 

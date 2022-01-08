@@ -42,6 +42,7 @@ $rows = $pdo->query($sql)->fetchAll();
     /* 清酒圖片的css樣式 */
     .pro_img {
         height: 160px;
+        max-width: 160px;
         padding: 10px;
         filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
         /* 帶透明圖層用的陰影 */
