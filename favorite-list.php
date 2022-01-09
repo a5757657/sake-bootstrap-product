@@ -77,10 +77,9 @@ $pro = $pdo->query($product)->fetchAll();
                         <div class="mx-2">價格:NT$<?= $r['pro_price'] ?></div>
                     </div>
                     <input type="hidden" value="<?= $r['pro_id'] ?>">
-                    <a data-bs-target="#del_pro" data-bs-toggle="modal" class="btn btn-secondary justify-content-end col-12 my-3">移除收藏</a>
+                    <a data-bs-target="#del_pro" data-bs-toggle="modal" class="btn btn-secondary justify-content-end col-12 my-3 del_pro">移除收藏</a>
                     <input type="hidden" value="<?= $r['pro_name'] ?>">
                 </div>
-
                 <!-- Modal -->
                 <div class="modal fade" id="del_pro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -89,7 +88,7 @@ $pro = $pdo->query($product)->fetchAll();
                                 <h5 class="modal-title" id="exampleModalLabel">刪除收藏商品</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">是否要刪除<span class="fw-bold"><?= $r['pro_name'] ?></span>的商品收藏?</div>
+                            <div class="modal-body">是否要刪除商品收藏?</div>
                             <div class="modal-footer">
                                 <a href="favorite-del-api.php?member_id=<?= $member_id ?>&pro_id=<?= $r['pro_id'] ?> " class="btn btn-secondary">確認</a>
                                 <a class="btn btn-secondary" data-bs-dismiss="modal">取消</a>
@@ -98,7 +97,8 @@ $pro = $pdo->query($product)->fetchAll();
                     </div>
                 </div>
 
-            <?php endforeach; ?>
+                
+                <?php endforeach; ?>
 
 
             <div class="card d-flex align-items-center justify-content-center m-1 add" style="width: 18rem;">
@@ -135,6 +135,7 @@ $pro = $pdo->query($product)->fetchAll();
                         </select>
                         <div class="warning"></div>
                     </div>
+                    <input type="hidden" name="member_id" value="<?= $member_id ?>">
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-secondary w-25" id="upload">新增</button>
                         <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal">取消</button>
@@ -172,7 +173,7 @@ $pro = $pdo->query($product)->fetchAll();
     let card_count = document.querySelectorAll('.card_count');
     let add = document.querySelector('.add');
 
-    if (card_count.length >= 20) {
+    if (card_count.length >= 10) {
         add.style = "display:none !important";
     }
 
@@ -180,6 +181,9 @@ $pro = $pdo->query($product)->fetchAll();
     let warning = document.querySelector('.warning');
     let select = document.querySelector('#select');
     let comfirm = document.querySelector('#comfirm');
+
+
+    
 
     function sendData() {
 
@@ -200,21 +204,14 @@ $pro = $pdo->query($product)->fetchAll();
                 .then(obj => {
                     if (obj.success) {
                         document.querySelector('#alertModal').innerHTML = '新增成功';
-                        console.log('333');
                         modal.show();
-
                         comfirm.addEventListener('click', function() {
-                            location.href = `favorite-list.php?member_id=<?= $member_id ?>&member_name=<?= $member_name ?>.php`;
+                            history.go(0);
                         })
 
                     } else {
                         document.querySelector('#alertModal').innerHTML = obj.error || '新增發生錯誤';
-                        console.log('444');
                         modal.show();
-
-                        comfirm.addEventListener('click', function() {
-                            location.href = `favorite-list.php?member_id=<?= $member_id ?>&member_name=<?= $member_name ?>.php`;
-                        })
                     }
                 })
         }
