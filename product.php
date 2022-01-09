@@ -3,8 +3,13 @@
 
 $title = '商品管理';
 
+$sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'pro_id';
+$order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'ASC';
+
 //每一頁出現幾筆資料
-$perPage = 8;
+$perPage = isset($_GET['limit']) ? $_GET['limit'] : 8;
+
+
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 
 //總比數
@@ -24,8 +29,10 @@ if ($page < 1) {
     exit;
 }
 
+//判斷排序條件
+
 //設定每一頁出現幾筆資料
-$sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf on ps.format_id = pf.format_id LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+$sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf on ps.format_id = pf.format_id ORDER BY $sort_by $order_by LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
 
 $rows = $pdo->query($sql)->fetchAll();
 
@@ -47,28 +54,31 @@ $rows = $pdo->query($sql)->fetchAll();
         filter: drop-shadow(0px 5px 6px rgba(50, 50, 50, .5));
         /* 帶透明圖層用的陰影 */
     }
-
-
-    /* .fa-trash {
-        text-align: center;
-    } */
 </style>
 
 <div class="d-flex justify-content-between mt-5">
-    <div class="d-flex gap-2">
-        <div>
-            <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
+    <div class="col-8 d-flex justify-content-start gap-2">
+        <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
+        <a href="product-insert.php"><button type="button" class="btn btn-secondary btn-sm">新增商品</button></a>
+        <div class="col-3">
+            <select class="form-select sort" name="sort" aria-label="Default select example">
+                <option>**選擇排序**</option>
+                <option value="1">預設排序</option>
+                <option value="2">價格:由高到低</option>
+                <option value="3">價格:由低到高</option>
+                <option value="4">上架時間:由新到舊</option>
+                <option value="5">上架時間:由舊到新</option>
+            </select>
         </div>
-        <div>
-            <a href="product-insert.php"><button type="button" class="btn btn-secondary btn-sm">新增商品</button></a>
-        </div>
-        <div>
-            <select class="form-select" aria-label="Default select example">
-                <option value="0">**選擇排序**</option>
-                <option value="1">上架時間: 由新到舊</option>
-                <option value="2">上架時間: 由舊到新</option>
-                <option value="3">價格:由高至低</option>
-                <option value="4">價格:由低至高</option>
+        <div class="col-3">
+            <select class="form-select limit" name="limit" aria-label="Default select example">
+                <option>**每頁顯示數量**</option>
+                <option value="1">每頁顯示4個</option>
+                <option value="2">每頁顯示8個</option>
+                <option value="3">每頁顯示12個</option>
+                <option value="4">每頁顯示24個</option>
+                <option value="5">每頁顯示48個</option>
+            </select>
         </div>
     </div>
 
@@ -151,8 +161,12 @@ $rows = $pdo->query($sql)->fetchAll();
                 //用禮盒id去抓禮盒名稱
                 $pgift = "SELECT pg.`gift_name` FROM `product_gift` pg JOIN `product_format` pf ON pg.`pro_gift` = $bid";
                 $gift = $pdo->query($pgift)->fetch();
-            ?>
 
+
+
+
+
+            ?>
                 <tr class="d-flex">
                     <td>
                         <input class="form-check-input check" type="checkbox" value="" />
@@ -214,6 +228,8 @@ $rows = $pdo->query($sql)->fetchAll();
 
 
 <?php include __DIR__ . '/parts/__main_end.html' ?>
+<!-- 如果要 modal 的話留下面的結構 -->
+<?php include __DIR__ . '/parts/__modal.html' ?>
 
 <?php include __DIR__ . '/parts/__script.html' ?>
 <!-- 如果要 modal 的話留下面的 script -->
@@ -276,6 +292,60 @@ $rows = $pdo->query($sql)->fetchAll();
 
         if (arr) {
             delete_it(arr)
+        }
+    })
+
+    //商品排序
+    let sort = document.querySelector('.sort');
+
+    sort.addEventListener('change', function() {
+        if (sort.value == 1) {
+            //價格:由高到低
+            location.href = `product.php?sort_by=pro_id&order_by=ASC`;
+        }
+        if (sort.value == 2) {
+            //價格:由高到低
+            location.href = `product.php?sort_by=pro_price&order_by=DESC`;
+        }
+        if (sort.value == 3) {
+            //價格:由低到高
+            location.href = `product.php?sort_by=pro_price&order_by=ASC`;
+        }
+        if (sort.value == 4) {
+            //上架時間:由新到舊
+            location.href = `product.php?sort_by=pro_creat_time&order_by=DESC`;
+        }
+        if (sort.value == 5) {
+            //上架時間:由舊到新
+            location.href = `product.php?sort_by=pro_creat_time&order_by=ASC`;
+        }
+    })
+
+    //商品顯示數量
+
+    let limit = document.querySelector('.limit');
+
+    limit.addEventListener('change', function() {
+
+        if (limit.value == 1) {
+            //4個
+            location.href = `product.php?limit=4`;
+        }
+        if (limit.value == 2) {
+            //8個
+            location.href = `product.php?limit=8`;
+        }
+        if (limit.value == 3) {
+            //12個
+            location.href = `product.php?limit=12`;
+        }
+        if (limit.value == 4) {
+            //24個
+            location.href = `product.php?limit=24`;
+        }
+        if (limit.value == 5) {
+            //24個
+            location.href = `product.php?limit=48`;
         }
     })
 </script>
