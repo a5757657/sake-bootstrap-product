@@ -14,7 +14,9 @@ $member_name = $_GET['member_name'];
 $sql = "SELECT f.* , ps.* , pf.* FROM `favorite` f JOIN `product_sake` ps ON f.`pro_id` = ps.`pro_id` JOIN `product_format` pf ON ps.`format_id` = pf.`format_id` WHERE f.`member_id` = $member_id ;";
 $rows = $pdo->query($sql)->fetchAll();
 
-
+//商品名稱
+$product = "SELECT * FROM `product_sake` ORDER BY `pro_name`;";
+$pro = $pdo->query($product)->fetchAll();
 
 ?>
 <?php include __DIR__ . '/parts/__head.php' ?>
@@ -75,20 +77,22 @@ $rows = $pdo->query($sql)->fetchAll();
                         <div class="mx-2">價格:NT$<?= $r['pro_price'] ?></div>
                     </div>
                     <input type="hidden" value="<?= $r['pro_id'] ?>">
-                    <a href="javascript: modal.show()" class="btn btn-secondary justify-content-end col-12 my-3">移除收藏</a>
+                    <a data-bs-target="#del_pro" data-bs-toggle="modal" class="btn btn-secondary justify-content-end col-12 my-3">移除收藏</a>
                     <input type="hidden" value="<?= $r['pro_name'] ?>">
                 </div>
+
                 <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="del_pro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">刪除收藏商品</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">...</div>
+                            <div class="modal-body">是否要刪除<span class="fw-bold"><?= $r['pro_name'] ?></span>的商品收藏?</div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+                                <a href="favorite-del-api.php?member_id=<?= $member_id ?>&pro_id=<?= $r['pro_id'] ?> " class="btn btn-secondary">確認</a>
+                                <a class="btn btn-secondary" data-bs-dismiss="modal">取消</a>
                             </div>
                         </div>
                     </div>
@@ -98,7 +102,7 @@ $rows = $pdo->query($sql)->fetchAll();
 
 
             <div class="card d-flex align-items-center justify-content-center m-1 add" style="width: 18rem;">
-                <a href="#" class="text-decoration-none d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
+                <a data-bs-target="#add_pro" data-bs-toggle="modal" href="#" class="text-decoration-none d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
                     <i class="far fa-plus-square "></i>
                 </a>
             </div>
@@ -107,6 +111,57 @@ $rows = $pdo->query($sql)->fetchAll();
 
     </div>
 </div>
+
+<!-- Modal -->
+<!-- 新增收藏商品 -->
+<div class="modal fade" id="add_pro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">新增收藏商品</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form name="form1" onsubmit="sendData(); return false;">
+                    <div class="form-group mb-3 col-12">
+                        <select class="form-control" name="pro_id" id="select">
+                            <option value="">**選擇商品**</option>
+
+                            <?php foreach ($pro as $p) : ?>
+                                <option value="<?= $p['pro_id'] ?>"><?= $p['pro_name'] ?></option>
+                            <?php endforeach; ?>
+
+
+                        </select>
+                        <div class="warning"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary w-25" id="upload">新增</button>
+                        <button type="button" class="btn btn-secondary w-25" data-bs-dismiss="modal">取消</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">新增收藏商品</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="alertModal"></div>
+            <div class="modal-footer">
+                <button id="comfirm" type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <?php include __DIR__ . '/parts/__main_end.html' ?>
 <?php include __DIR__ . '/parts/__script.html' ?>
@@ -121,6 +176,48 @@ $rows = $pdo->query($sql)->fetchAll();
         add.style = "display:none !important";
     }
 
-    /*  href="favorite-del-api.php?member_id=<?= $member_id ?>&pro_id=<?= $r['pro_id'] ?> */
+
+    let warning = document.querySelector('.warning');
+    let select = document.querySelector('#select');
+    let comfirm = document.querySelector('#comfirm');
+
+    function sendData() {
+
+        let isPass = true;
+        warning.innerHTML = "";
+
+        if (select.value == "") {
+            isPass = false;
+            warning.innerHTML = `<div class="alert alert-warning mt-2" role="alert">選擇商品</div>`;
+        }
+        if (isPass) {
+            const fd = new FormData(document.form1);
+
+            fetch('favorite-add-api.php', {
+                    method: 'POST',
+                    body: fd,
+                }).then(r => r.json())
+                .then(obj => {
+                    if (obj.success) {
+                        document.querySelector('#alertModal').innerHTML = '新增成功';
+                        console.log('333');
+                        modal.show();
+
+                        comfirm.addEventListener('click', function() {
+                            location.href = `favorite-list.php?member_id=<?= $member_id ?>&member_name=<?= $member_name ?>.php`;
+                        })
+
+                    } else {
+                        document.querySelector('#alertModal').innerHTML = obj.error || '新增發生錯誤';
+                        console.log('444');
+                        modal.show();
+
+                        comfirm.addEventListener('click', function() {
+                            location.href = `favorite-list.php?member_id=<?= $member_id ?>&member_name=<?= $member_name ?>.php`;
+                        })
+                    }
+                })
+        }
+    }
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>
