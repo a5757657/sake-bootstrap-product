@@ -264,8 +264,6 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
 
 <?php include __DIR__ . '/parts/__main_end.html' ?>
 
-<!-- 如果要 modal 的話留下面的結構 -->
-<?php include __DIR__ . '/parts/__modal.html' ?>
 
 <?php include __DIR__ . '/parts/__script.html' ?>
 <!-- 如果要 modal 的話留下面的 script -->

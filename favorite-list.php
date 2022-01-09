@@ -56,29 +56,47 @@ $rows = $pdo->query($sql)->fetchAll();
             </div>
             <a href="favorite-member.php"><button type="button" class="btn btn-secondary btn-sm">返回</button></a>
         </div>
-        
+
         <div class="row justify-content-start">
 
 
             <?php foreach ($rows as $r) : ?>
                 <div class="card d-flex align-items-center m-1 card_count" style="width: 18rem;">
-                <img src="/sake-bootstrap-product/img/<?= $r['pro_img'] ?>" class="pt-2 pro_img">
+                    <img src="/sake-bootstrap-product/img/<?= $r['pro_img'] ?>" class="pt-2 pro_img">
                     <div class="card-body">
                         <h5 class="card-title"><?= $r['pro_name'] ?></h5>
                     </div>
                     <div class="d-flex flex-row">
-                        <div class="mx-1">產地:<?= $r['pro_loca'] ?></div>
-                        <div class="mx-1">品牌:<?= $r['pro_brand'] ?></div>
+                        <div class="mx-2">產地:<?= $r['pro_loca'] ?></div>
+                        <div class="mx-2">品牌:<?= $r['pro_brand'] ?></div>
                     </div>
                     <div class='d-flex'>
-                    <div class="mx-1">產地:等級:<?= $r['pro_level'] ?></div>
-                        <div class="mx-1">價格:NT$<?= $r['pro_price'] ?></div>
+                        <div class="mx-2">等級:<?= $r['pro_level'] ?></div>
+                        <div class="mx-2">價格:NT$<?= $r['pro_price'] ?></div>
                     </div>
-                    <a href="#" class="btn btn-secondary justify-content-end col-12 my-3">移除收藏</a>
+                    <input type="hidden" value="<?= $r['pro_id'] ?>">
+                    <a href="javascript: modal.show()" class="btn btn-secondary justify-content-end col-12 my-3">移除收藏</a>
+                    <input type="hidden" value="<?= $r['pro_name'] ?>">
                 </div>
-                <?php endforeach; ?>
-    
-    
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">刪除收藏商品</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">...</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確認</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <?php endforeach; ?>
+
+
             <div class="card d-flex align-items-center justify-content-center m-1 add" style="width: 18rem;">
                 <a href="#" class="text-decoration-none d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
                     <i class="far fa-plus-square "></i>
@@ -91,9 +109,6 @@ $rows = $pdo->query($sql)->fetchAll();
 </div>
 
 <?php include __DIR__ . '/parts/__main_end.html' ?>
-<!-- 如果要 modal 的話留下面的結構 -->
-<?php include __DIR__ . '/parts/__modal.html' ?>
-
 <?php include __DIR__ . '/parts/__script.html' ?>
 <!-- 如果要 modal 的話留下面的 script -->
 <script>
@@ -105,5 +120,7 @@ $rows = $pdo->query($sql)->fetchAll();
     if (card_count.length >= 20) {
         add.style = "display:none !important";
     }
+
+    /*  href="favorite-del-api.php?member_id=<?= $member_id ?>&pro_id=<?= $r['pro_id'] ?> */
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>
