@@ -208,7 +208,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         </div>
 
                         <div class="form-group mb-3 col-3">
-                            <label for="pro_taste" class="mb-2">口味描述<small>
+                            <label for="pro_taste" class="mb-2">口味<small>
                                     <span class="fla fla1">偏酸</span>
                                     <span class="fla fla2">偏甜</span>
                                     <span class="fla fla3">辛口</span>
@@ -220,7 +220,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                             <input type="text" class="form-control" name="pro_taste" id="pro_taste" value="<?= $pformat['pro_taste'] ?>" />
                         </div>
                         <div class="form-group mb-3 col-3">
-                            <label for="pro_temp" class="mb-2">飲用溫度<small>
+                            <label for="pro_temp" class="mb-2">溫度<small>
                                     <span class="tem tem1">冷酒</span>
                                     <span class="tem tem2">常溫</span>
                                     <span class="tem tem3">燗酒</span>
