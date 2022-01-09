@@ -125,46 +125,5 @@ $rows = $pdo->query($sql)->fetchAll()
 <script>
     const modal = new bootstrap.Modal(document.querySelector('#exampleModal'));
     //  modal.show() 讓 modal 跳出
-
-    //刪除單筆、多筆資料
-    function delete_it(sid) {
-
-        let alertModal = document.querySelector('#alertModal');
-        let confirmDel = document.querySelector('.confirmDel');
-        alertModal.innerHTML = `確定要刪除編號為 ${sid} 的資料嗎?`
-
-        if (alertModal.innerHTML) {
-            modal.show();
-
-            confirmDel.addEventListener('click', function() {
-                location.href = `product-del-api.php?sid=${sid}`;
-            })
-
-        }
-    }
-
-
-
-    //取前臺顯示的商品id值
-    let delAll = document.querySelector('#delAll');
-    delAll.addEventListener('click', function() {
-        let check = document.querySelectorAll('.check');
-        let arr = [];
-        let str;
-
-        check.forEach(function(el) {
-            if (el.checked) {
-                str = el.parentElement.nextElementSibling; //選取父元素的隔壁
-                str = str.nextElementSibling.innerHTML; //的隔壁元素
-                arr.push(str);
-            }
-        })
-
-        arr = arr.join(','); //陣列加入符號隔開轉為字串(sql看得懂的樣子)
-
-        if (arr) {
-            delete_it(arr)
-        }
-    })
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>
