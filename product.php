@@ -52,14 +52,24 @@ $rows = $pdo->query($sql)->fetchAll();
     /* .fa-trash {
         text-align: center;
     } */
-    
 </style>
 
 <div class="d-flex justify-content-between mt-5">
-    <div>
-        <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
-        <a href="product-insert.php"><button type="button" class="btn btn-secondary btn-sm">新增商品</button></a>
-
+    <div class="d-flex gap-2">
+        <div>
+            <button type="button" class="btn btn-secondary btn-sm" id="delAll">刪除選擇項目</button>
+        </div>
+        <div>
+            <a href="product-insert.php"><button type="button" class="btn btn-secondary btn-sm">新增商品</button></a>
+        </div>
+        <div>
+            <select class="form-select" aria-label="Default select example">
+                <option value="0">**選擇排序**</option>
+                <option value="1">上架時間: 由新到舊</option>
+                <option value="2">上架時間: 由舊到新</option>
+                <option value="3">價格:由高至低</option>
+                <option value="4">價格:由低至高</option>
+        </div>
     </div>
 
     <nav aria-label="Page navigation example">
@@ -141,12 +151,8 @@ $rows = $pdo->query($sql)->fetchAll();
                 //用禮盒id去抓禮盒名稱
                 $pgift = "SELECT pg.`gift_name` FROM `product_gift` pg JOIN `product_format` pf ON pg.`pro_gift` = $bid";
                 $gift = $pdo->query($pgift)->fetch();
-
-
-
-
-
             ?>
+
                 <tr class="d-flex">
                     <td>
                         <input class="form-check-input check" type="checkbox" value="" />
@@ -217,7 +223,7 @@ $rows = $pdo->query($sql)->fetchAll();
 
     //刪除單筆、多筆資料
     function delete_it(sid) {
-        
+
         let alertModal = document.querySelector('#alertModal');
         let confirmDel = document.querySelector('.confirmDel');
         alertModal.innerHTML = `確定要刪除編號為 ${sid} 的資料嗎?`
