@@ -192,7 +192,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                                     <span class="fla fla6">適中</span>
                                     <span class="fla fla7">清空</span>
                                 </small></label>
-                            <input type="text" class="form-control" name="pro_taste" id="pro_taste" />
+                            <input type="text" class="form-control" name="pro_taste" id="pro_taste" aria-label="readonly input example" readonly />
                         </div>
                         <div class="form-group mb-3 col-3">
                             <label for="pro_temp" class="mb-2">溫度<small>
@@ -201,7 +201,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                                     <span class="tem tem3">燗酒</span>
                                     <span class="tem tem4">清空</span>
                                 </small></label>
-                            <input type="text" class="form-control" name="pro_temp" id="pro_temp" />
+                            <input type="text" class="form-control" name="pro_temp" id="pro_temp" aria-label="readonly input example" readonly />
                         </div>
                         <div class="form-group mb-3 col-4">
                             <label class="mb-2" for="pro_gift">禮盒</label>
@@ -235,7 +235,7 @@ $pro_cons = $pdo->query($pro_con)->fetchAll();
                         <!--警警告文字 -->
                         <div class="form-group mb-3 warning"></div>
                         <div class="d-flex justify-content-around mb-3">
-                            <a href="product.php" class="btn btn-secondary w-25">返回</a>
+                            <a href="javascript: history.go(-1)" class="btn btn-secondary w-25">返回</a>
                             <button type="submit" class="btn btn-secondary w-25" id="upload">新增</button>
                         </div>
 
