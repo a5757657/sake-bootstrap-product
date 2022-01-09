@@ -51,12 +51,15 @@ $pro = $pdo->query($product)->fetchAll();
 </style>
 
 <div class="container">
-    <div class="row pt-4">
+    <div class="row pt-5">
         <div class="d-flex mb-3 justify-content-between border-bottom">
             <div>
                 <h4>會員編號：<?= $member_id ?>&emsp;&emsp;會員名稱：<?= $member_name ?></h4>
             </div>
-            <a href="favorite-member.php"><button type="button" class="btn btn-secondary btn-sm">返回</button></a>
+            <div class="">
+                <button type="button" class="btn btn-secondary btn-sm del">刪除收藏商品</button>
+                <a href="javascript: history.go(-1)"><button type="button" class="btn btn-secondary btn-sm">返回</button></a>
+            </div>
         </div>
 
         <div class="row justify-content-start">
@@ -65,9 +68,10 @@ $pro = $pdo->query($product)->fetchAll();
             <?php foreach ($rows as $r) : ?>
                 <div class="card d-flex align-items-center m-1 card_count" style="width: 18rem;">
                     <img src="/sake-bootstrap-product/img/<?= $r['pro_img'] ?>" class="pt-2 pro_img">
-                    <div class="card-body">
+                    <div class="card-body p-0">
                         <h5 class="card-title"><?= $r['pro_name'] ?></h5>
                     </div>
+
                     <div class="d-flex flex-row">
                         <div class="mx-2">產地:<?= $r['pro_loca'] ?></div>
                         <div class="mx-2">品牌:<?= $r['pro_brand'] ?></div>
@@ -77,41 +81,29 @@ $pro = $pdo->query($product)->fetchAll();
                         <div class="mx-2">價格:NT$<?= $r['pro_price'] ?></div>
                     </div>
                     <input type="hidden" value="<?= $r['pro_id'] ?>">
-                    <a data-bs-target="#del_pro" data-bs-toggle="modal" class="btn btn-secondary justify-content-end col-12 my-3 del_pro">移除收藏</a>
+                    <div class='d-flex py-3'>
+                        <input class="form-check-input check" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" >&emsp;選取收藏商品</label>
+                        <p style="display:none"><?= $r['pro_id'] ?></p>
+                    </div>
                     <input type="hidden" value="<?= $r['pro_name'] ?>">
                 </div>
-                <!-- Modal -->
-                <div class="modal fade" id="del_pro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">刪除收藏商品</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">是否要刪除商品收藏?</div>
-                            <div class="modal-footer">
-                                <a href="favorite-del-api.php?member_id=<?= $member_id ?>&pro_id=<?= $r['pro_id'] ?> " class="btn btn-secondary">確認</a>
-                                <a class="btn btn-secondary" data-bs-dismiss="modal">取消</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                
                 
                 <?php endforeach; ?>
-
-
-            <div class="card d-flex align-items-center justify-content-center m-1 add" style="width: 18rem;">
-                <a data-bs-target="#add_pro" data-bs-toggle="modal" href="#" class="text-decoration-none d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
-                    <i class="far fa-plus-square "></i>
-                </a>
+                
+                <!-- 新增商品 -->
+                <div class="card d-flex align-items-center justify-content-center m-1 add" style="width: 18rem;">
+                    <a data-bs-target="#add_pro" data-bs-toggle="modal" href="#" class="text-decoration-none d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
+                        <i class="far fa-plus-square "></i>
+                    </a>
+                </div>
             </div>
+            
+            
         </div>
-
-
     </div>
-</div>
-
+ 
 <!-- Modal -->
 <!-- 新增收藏商品 -->
 <div class="modal fade" id="add_pro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -152,7 +144,7 @@ $pro = $pdo->query($product)->fetchAll();
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">新增收藏商品</h5>
+                <h5 class="modal-title " id="alertTitle">新增收藏商品</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="alertModal"></div>
@@ -177,13 +169,56 @@ $pro = $pdo->query($product)->fetchAll();
         add.style = "display:none !important";
     }
 
+    function delete_it(sid) {
+        
+        let alertModal = document.querySelector('#alertModal');
+        let alertTitle = document.querySelector('#alertTitle');
+        let comfirm = document.querySelector('#comfirm');
+        alertTitle.innerHTML = `刪除收藏商品`;
+        alertModal.innerHTML = `確定要刪除收藏商品嗎?`;
+
+        if (alertModal.innerHTML) {
+            modal.show();
+
+            comfirm.addEventListener('click', function() {
+                console.log('4');
+                location.href = `favorite-del-api.php?member_id=<?= $member_id ?>&pro_id=${sid}`;
+            })
+
+        }
+    }
+
+    let del = document.querySelector('.del');
+
+
+    del.addEventListener('click', function() {
+
+        let check = document.querySelectorAll('.check')
+        let arr = [];
+        let str;
+        /*  check = check.nextElementSibling
+         console.log(check.nextElementSibling.innerHTML); */
+
+        check.forEach(function(el) {
+
+            if (el.checked) {
+                str = el.nextElementSibling;
+                str = str.nextElementSibling.innerHTML;
+                arr.push(str);
+            }
+        })
+        arr = arr.join(',');
+
+        if(arr) {
+            delete_it(arr);
+        }
+    })
+
+
 
     let warning = document.querySelector('.warning');
     let select = document.querySelector('#select');
     let comfirm = document.querySelector('#comfirm');
-
-
-    
 
     function sendData() {
 
@@ -203,6 +238,7 @@ $pro = $pdo->query($product)->fetchAll();
                 }).then(r => r.json())
                 .then(obj => {
                     if (obj.success) {
+                        document.querySelector('#alertTitle').innerHTML = '新增收藏商品';
                         document.querySelector('#alertModal').innerHTML = '新增成功';
                         modal.show();
                         comfirm.addEventListener('click', function() {
