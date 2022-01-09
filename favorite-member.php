@@ -92,7 +92,7 @@ $rows = $pdo->query($sql)->fetchAll()
                     <td class='col-3'><?= $r['member_name'] ?></td>
                     <td class='col-3'><?= $r['user_account'] ?></td>
                     <td class='col-3'><?= $totalCount ?></td>
-                    <td class='col-1'><a href="favorite-list.php?member_id=<?= $r['member_id'] ?>&member_name=<?= $r['member_name'] ?>"><button type="button" class="btn btn-secondary btn-sm">收藏商品</button></a></td>
+                    <td class='col-auto'><a href="favorite-list.php?member_id=<?= $r['member_id'] ?>&member_name=<?= $r['member_name'] ?>"><button type="button" class="btn btn-secondary btn-sm">收藏商品</button></a></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
