@@ -3,6 +3,7 @@
 
 $title = '商品管理';
 
+//商品排序
 $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'pro_id';
 $order_by = isset($_GET['order_by']) ? $_GET['order_by'] : 'ASC';
 
@@ -35,8 +36,6 @@ if ($page < 1) {
 $sql = sprintf("SELECT * , pf.* FROM `product_sake` ps JOIN `product_format` pf on ps.format_id = pf.format_id ORDER BY $sort_by $order_by LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
 
 $rows = $pdo->query($sql)->fetchAll();
-
-
 ?>
 
 
@@ -155,16 +154,11 @@ $rows = $pdo->query($sql)->fetchAll();
                 $container = "SELECT pc.`container_name` FROM `product_container` pc JOIN `product_format` pf ON pc.`container_id` = $cid";
                 $ctr = $pdo->query($container)->fetch();
 
-
                 //抓規格表的禮盒id
                 $bid = $r['pro_gift'];
                 //用禮盒id去抓禮盒名稱
                 $pgift = "SELECT pg.`gift_name` FROM `product_gift` pg JOIN `product_format` pf ON pg.`pro_gift` = $bid";
                 $gift = $pdo->query($pgift)->fetch();
-
-
-
-
 
             ?>
                 <tr class="d-flex">
@@ -348,5 +342,6 @@ $rows = $pdo->query($sql)->fetchAll();
             location.href = `product.php?limit=48`;
         }
     })
+
 </script>
 <?php include __DIR__ . '/parts/__foot.html' ?>
