@@ -97,12 +97,12 @@ $rows = $pdo->query($sql)->fetchAll();
                 <th class="col-2">名稱</th>
                 <th class="col-2">開始時間</th>
                 <th class="col-2">結束時間</th>
-                <th class="col-2">簡述</th>
+                <th class="col-4">簡述</th>
                 <th class="col-2">地點</th>
-                <th class="col-4">介紹</th>
+                <th class="col-6">介紹</th>
                 <th class="col-1">價錢</th>
                 <th class="col-1">狀態</th>
-                <th class="col-1">截止日期</th>
+                <th class="col-2">截止日期</th>
                 <th class="col-2">新增時間</th>
                 <th class="col-2">更新時間</th>
             </tr>
@@ -122,12 +122,12 @@ $rows = $pdo->query($sql)->fetchAll();
                     <td class="col-2"><?= htmlentities($r['event_name']) ?></td>
                     <td class="col-2"><?= $r['event_time_start'] ?></td>
                     <td class="col-2"><?= $r['event_time_end'] ?></td>
-                    <td class="col-2"><?= htmlentities($r['event_brief']) ?></td>
+                    <td class="col-4"><?= htmlentities($r['event_brief']) ?></td>
                     <td class="col-2"><?= htmlentities($r['event_location']) ?></td>
-                    <td class="col-4"><?= htmlentities($r['event_intro']) ?></td>
+                    <td class="col-6"><?= htmlentities($r['event_intro']) ?></td>
                     <td class="col-1">$<?= $r['event_cost'] ?></td>
-                    <td class="col-1"><?= $r['event_cover'] ?></td>
                     <td class="col-1"><?= $r['event_condition'] ?></td>
+                    <td class="col-2"><?= $r['event_due'] ?></td>
                     <td class="col-2"><?= $r['event_create_date'] ?></td>
                     <td class="col-2"><?= $r['event_update_date'] ?></td>
                     <td class="col-1">
