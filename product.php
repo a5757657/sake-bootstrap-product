@@ -86,25 +86,25 @@ $rows = $pdo->query($sql)->fetchAll();
 
             <!-- 設定頁數的顯示 -->
             <li class="page-item <?= 1 == $page ? 'disabled' : '' ?>">
-                <a class="page-link  " href="?page=<?= "1" ?>">
+                <a class="page-link  " href="?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=<?= $perPage ?>&page=<?= "1" ?>">
                     <i class="fas fa-angle-double-left"></i></a>
             </li>
             <li class="page-item <?= 1 == $page ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page - 1 ?>"><i class="fas fa-angle-left"></i></a>
+                <a class="page-link" href="?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=<?= $perPage ?>&page=<?= $page - 1 ?>"><i class="fas fa-angle-left"></i></a>
             </li>
             <?php for ($i = 1; $i <= $totalPages; $i++) : ?>
                 <?php if ($i > ($page - 3) && $i < ($page + 3)) : ?>
 
                     <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                        <a class="page-link" href="?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=<?= $perPage ?>&page=<?= $i ?>"><?= $i ?></a>
                     </li>
                 <?php endif ?>
             <?php endfor ?>
             <li class="page-item <?= $totalPages == $page ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $page - 1 ?>"><i class="fas fa-angle-right"></i></a>
+                <a class="page-link" href="?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=<?= $perPage ?>&page=<?= $page + 1 ?>"><i class="fas fa-angle-right"></i></a>
             </li>
             <li class="page-item <?= $totalPages == $page ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $totalPages ?>"><i class="fas fa-angle-double-right"></i></a>
+                <a class="page-link" href="?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=<?= $perPage ?>&page=<?= $totalPages ?>"><i class="fas fa-angle-double-right"></i></a>
             </li>
         </ul>
     </nav>
@@ -295,23 +295,23 @@ $rows = $pdo->query($sql)->fetchAll();
     sort.addEventListener('change', function() {
         if (sort.value == 1) {
             //價格:由高到低
-            location.href = `product.php?sort_by=pro_id&order_by=ASC`;
+            location.href = `product.php?sort_by=pro_id&order_by=ASC&limit=<?= $perPage ?>`;
         }
         if (sort.value == 2) {
             //價格:由高到低
-            location.href = `product.php?sort_by=pro_price&order_by=DESC`;
+            location.href = `product.php?sort_by=pro_price&order_by=DESC&limit=<?= $perPage ?>`;
         }
         if (sort.value == 3) {
             //價格:由低到高
-            location.href = `product.php?sort_by=pro_price&order_by=ASC`;
+            location.href = `product.php?sort_by=pro_price&order_by=ASC&limit=<?= $perPage ?>`;
         }
         if (sort.value == 4) {
             //上架時間:由新到舊
-            location.href = `product.php?sort_by=pro_creat_time&order_by=DESC`;
+            location.href = `product.php?sort_by=pro_creat_time&order_by=DESC&limit=<?= $perPage ?>`;
         }
         if (sort.value == 5) {
             //上架時間:由舊到新
-            location.href = `product.php?sort_by=pro_creat_time&order_by=ASC`;
+            location.href = `product.php?sort_by=pro_creat_time&order_by=ASC&limit=<?= $perPage ?>`;
         }
     })
 
@@ -323,23 +323,23 @@ $rows = $pdo->query($sql)->fetchAll();
 
         if (limit.value == 1) {
             //4個
-            location.href = `product.php?limit=4`;
+            location.href = `product.php?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=4`;
         }
         if (limit.value == 2) {
             //8個
-            location.href = `product.php?limit=8`;
+            location.href = `product.php?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=8`;
         }
         if (limit.value == 3) {
             //12個
-            location.href = `product.php?limit=12`;
+            location.href = `product.php?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=12`;
         }
         if (limit.value == 4) {
             //24個
-            location.href = `product.php?limit=24`;
+            location.href = `product.php?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=24`;
         }
         if (limit.value == 5) {
             //24個
-            location.href = `product.php?limit=48`;
+            location.href = `product.php?sort_by=<?= $sort_by ?>&order_by=<?= $order_by ?>&limit=48`;
         }
     })
 

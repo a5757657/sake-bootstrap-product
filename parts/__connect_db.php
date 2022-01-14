@@ -1,6 +1,6 @@
 <?php
 $db_host = 'localhost';
-$db_name = 'sake';
+$db_name = 'sake test';
 $db_user = 'root';
 $db_pass = '';
 
